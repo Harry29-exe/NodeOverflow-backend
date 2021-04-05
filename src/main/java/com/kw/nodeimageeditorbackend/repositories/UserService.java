@@ -1,10 +1,12 @@
 package com.kw.nodeimageeditorbackend.repositories;
 
-import com.kw.nodeimageeditorbackend.entities.User;
-import org.springframework.stereotype.Service;
+import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
+import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    User getUser(long id);
+    void createUser(CreateUserRequest newUser);
 
+    void deleteUser(DeleteUserRequest user);
 }

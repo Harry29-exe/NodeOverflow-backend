@@ -2,6 +2,7 @@ package com.kw.nodeimageeditorbackend.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
+import com.kw.nodeimageeditorbackend.security.UserPrincipal;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
@@ -21,15 +22,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.temporal.TemporalUnit;
+import java.util.HashMap;
 
-public class JwtFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
     private AuthenticationManager authenticationManager;
     private final Key key = Keys.hmacShaKeyFor("gjfdskoghdflkifsdghblfkdjgnbvlkdjshnbvgfkd".getBytes());
 
-    public JwtFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthentication(AuthenticationManager authenticationManager) {
         super(new AntPathRequestMatcher("/api/login", "POST"));
         this.authenticationManager = authenticationManager;
     }
@@ -45,7 +48,8 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
             return authenticationManager.authenticate(authentication);
 
         } catch (Exception ex) {
-            throw new RuntimeException("Failed to authenticate");
+            throw new AuthenticationException("Failed to authenticate") {
+            };
         }
     }
 
@@ -54,8 +58,14 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
+        UserPrincipal user = (UserPrincipal) authResult.getPrincipal();
+        HashMap<String,String> claims = new HashMap<>();
+        claims.put("email", user.getEmail());
+        claims.put("sub", user.getUsername());
+        claims.put("id", user.getId().toString());
+
         String token = Jwts.builder()
-                .setSubject(authResult.getName())
+                .setClaims(claims)
                 .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 1_000*60*3))

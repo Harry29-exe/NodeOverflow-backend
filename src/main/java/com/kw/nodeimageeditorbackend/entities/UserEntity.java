@@ -2,7 +2,6 @@ package com.kw.nodeimageeditorbackend.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
 
     @Id
     @Column(name = "user_id")
@@ -24,6 +23,6 @@ public class User implements Serializable {
     @Column(length = 60)
     private String password;
     @OneToMany(mappedBy = "user")
-    private List<UserRole> roles;
+    private List<UserRoleEntity> roles;
 
 }
