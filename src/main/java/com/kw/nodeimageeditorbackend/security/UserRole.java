@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public enum UserRole {
     ADMIN(new HashSet<>(Arrays.asList(UserPermission.CREATE_USER, UserPermission.DELETE_USER))),

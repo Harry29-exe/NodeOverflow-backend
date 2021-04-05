@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserPrincipal implements UserDetails {
-    private List<? extends GrantedAuthority> authorities = new ArrayList<>();
-    private Long id;
-    private String password;
-    private String username;
-    private String email;
+    private final List<? extends GrantedAuthority> authorities = new ArrayList<>();
+    private final Long id;
+    private final String password;
+    private final String username;
+    private final String email;
 
     public UserPrincipal(UserEntity userEntity) {
         this.password = userEntity.getPassword();
