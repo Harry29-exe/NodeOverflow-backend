@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.configuration;
+package com.kw.nodeimageeditorbackend.security;
 
 import com.kw.nodeimageeditorbackend.filters.JwtFilter;
 import com.kw.nodeimageeditorbackend.filters.JwtTokenVerifier;
