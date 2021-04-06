@@ -12,20 +12,21 @@ import org.springframework.stereotype.Service;
 
 import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityExistsException;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
 
 import static com.kw.nodeimageeditorbackend.security.UserRole.USER;
 
 @Service
 public class UserRepositoryService implements UserService {
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final Random random = new Random();
 
-    public UserRepositoryService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserRepositoryService(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -71,7 +72,28 @@ public class UserRepositoryService implements UserService {
     }
 
     @Override
-    public void deleteUser(DeleteUserRequest user) {
+    public void deleteUser(DeleteUserRequest user) throws IllegalAccessException, EntityNotFoundException {
+        Optional<UserEntity> userEntity;
+        if(user.getUsernameOrEmail().contains("@")) {
+            userEntity = userRepository.findByEmail(user.getUsernameOrEmail());
+        } else {
+            userEntity = userRepository.findByUsername(user.getUsernameOrEmail());
+        }
+
+        if(userEntity.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        UserEntity userToDelete = userEntity.get();
+
+        if(passwordEncoder.matches(user.getPassword(), userToDelete.getPassword())) {
+            userRepository.deleteById(userToDelete.getId());
+        } else {
+            throw new IllegalAccessException("Password is not correct");
+        }
+    }
+
+    @Override
+    public void updateUser() {
 
     }
 }

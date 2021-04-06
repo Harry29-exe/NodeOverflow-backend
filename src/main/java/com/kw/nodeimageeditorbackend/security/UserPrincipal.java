@@ -22,6 +22,13 @@ public class UserPrincipal implements UserDetails {
         this.id = userEntity.getId();
     }
 
+    public UserPrincipal(Long id, String username, String email, String password) {
+        this.id = id;
+        this.password = password;
+        this.username = username;
+        this.email = email;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

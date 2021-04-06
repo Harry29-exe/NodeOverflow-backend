@@ -11,5 +11,7 @@ public interface UserService extends UserDetailsService {
 
     void createUser(CreateUserRequest newUser) throws EntityExistsException, InvalidAttributeValueException;
 
-    void deleteUser(DeleteUserRequest user);
+    void deleteUser(DeleteUserRequest user) throws IllegalAccessException;
+
+    void updateUser();
 }

@@ -17,20 +17,23 @@ import java.util.List;
 public class UserEntity implements Serializable {
 
     @Id
-    @NotNull
     @Column(name = "user_id")
     private long id;
-    @NotNull
+
     @Column
     private String username;
-    @NotNull
+
     @Column
     private String email;
-    @NotNull
+
     @Column(length = 60)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity = UserRoleEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRoleEntity> roles;
 
+//    @PreRemove
+//    public void preRemove() {
+//        roles.forEach(r -> r.setUser(null));
+//    }
 }

@@ -61,7 +61,7 @@ public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
                 .setClaims(claims)
                 .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 3))
+                .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 30))
                 .signWith(key)
                 .compact();
         response.addHeader("Authorization", "Bearer " + token);

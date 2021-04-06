@@ -23,13 +23,22 @@ public class UserRoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank
     @Column
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @NotNull
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+//    @PreRemove
+//    public void preRemove() {
+//        user = null;
+//    }
+
+    @Override
+    public String toString() {
+        return role.name();
+    }
 }
