@@ -2,7 +2,7 @@ package com.kw.nodeimageeditorbackend.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
-import com.kw.nodeimageeditorbackend.security.UserPrincipal;
+import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,7 +51,7 @@ public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-        UserPrincipal user = (UserPrincipal) authResult.getPrincipal();
+        ApplicationUserDetails user = (ApplicationUserDetails) authResult.getPrincipal();
         HashMap<String, String> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         claims.put("sub", user.getUsername());

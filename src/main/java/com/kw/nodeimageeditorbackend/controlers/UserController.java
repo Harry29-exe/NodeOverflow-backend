@@ -3,13 +3,14 @@ package com.kw.nodeimageeditorbackend.controlers;
 import com.kw.nodeimageeditorbackend.repositories.UserService;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
-import com.kw.nodeimageeditorbackend.security.UserPrincipal;
-import org.springframework.http.HttpStatus;
+import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
+import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
+import javax.naming.AuthenticationException;
 import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -43,8 +44,8 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity deleteUser(@RequestBody DeleteUserRequest request) {
-        UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ResponseEntity deleteUser(@RequestBody DeleteUserRequest request, ResponseBody responseBody) {
+        ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(request.getUsernameOrEmail().contains("@")) {
             if(!user.getEmail().equals(request.getUsernameOrEmail())) {
                 return ResponseEntity.status(UNAUTHORIZED).build();
@@ -61,6 +62,12 @@ public class UserController {
             return ResponseEntity.status(EXPECTATION_FAILED).build();
         }
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/user")
+    public ResponseEntity patchUser(@RequestBody UpdateUserDetailsRequest request) throws AuthenticationException {
+        userService.updateUser(request);
         return ResponseEntity.ok().build();
     }
 }

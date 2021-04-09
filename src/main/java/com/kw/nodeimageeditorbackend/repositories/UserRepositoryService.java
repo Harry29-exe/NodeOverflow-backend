@@ -4,12 +4,15 @@ import com.kw.nodeimageeditorbackend.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.entities.UserRoleEntity;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
-import com.kw.nodeimageeditorbackend.security.UserPrincipal;
+import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
+import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -42,7 +45,7 @@ public class UserRepositoryService implements UserService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Username not found");
         } else {
-            return new UserPrincipal(user.get());
+            return new ApplicationUserDetails(user.get());
         }
     }
 
@@ -67,7 +70,7 @@ public class UserRepositoryService implements UserService {
                 passwordEncoder.encode(newUser.getPassword()),
                 null);
 
-        userEntity.setRoles(Arrays.asList(new UserRoleEntity(USER, userEntity)));
+        userEntity.setRoles(Collections.singletonList(new UserRoleEntity(USER, userEntity)));
         userRepository.save(userEntity);
     }
 
@@ -93,7 +96,25 @@ public class UserRepositoryService implements UserService {
     }
 
     @Override
-    public void updateUser() {
+    public void updateUser(UpdateUserDetailsRequest updateRequest) throws AuthenticationException {
+        ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity userEntity = userRepository.findById(updateRequest.getId()).orElseThrow();
+        boolean matches = passwordEncoder.matches(updateRequest.getPassword(), userEntity.getPassword());
+        if ( !matches || !user.getId().equals(updateRequest.getId())) {
+            throw new AuthenticationException();
+        }
 
+        if (updateRequest.getName() != null) {
+            userEntity.setUsername(updateRequest.getName());
+        }
+        if (updateRequest.getEmail() != null) {
+            userEntity.setEmail(userEntity.getEmail());
+        }
+        if(updateRequest.getNewPassword() != null) {
+            userEntity.setPassword(
+                    passwordEncoder.encode(updateRequest.getNewPassword())
+            );
+        }
+        userRepository.save(userEntity);
     }
 }

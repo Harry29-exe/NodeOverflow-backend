@@ -8,21 +8,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserPrincipal implements UserDetails {
+public class ApplicationUserDetails implements UserDetails {
     private final List<? extends GrantedAuthority> authorities = new ArrayList<>();
     private final Long id;
     private final String password;
     private final String username;
     private final String email;
 
-    public UserPrincipal(UserEntity userEntity) {
+    public ApplicationUserDetails(UserEntity userEntity) {
         this.password = userEntity.getPassword();
         this.username = userEntity.getUsername();
         this.email = userEntity.getEmail();
         this.id = userEntity.getId();
     }
 
-    public UserPrincipal(Long id, String username, String email, String password) {
+    public ApplicationUserDetails(Long id, String username, String email, String password) {
         this.id = id;
         this.password = password;
         this.username = username;

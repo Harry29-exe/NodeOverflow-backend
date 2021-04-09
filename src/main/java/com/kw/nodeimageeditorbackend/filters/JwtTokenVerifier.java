@@ -1,6 +1,6 @@
 package com.kw.nodeimageeditorbackend.filters;
 
-import com.kw.nodeimageeditorbackend.security.UserPrincipal;
+import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -55,9 +55,10 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                     .map(m -> new SimpleGrantedAuthority(m.get("authority")))
                     .collect(Collectors.toSet());
 
+            Long id = Long.parseLong((String)body.get("id"));
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    new UserPrincipal(
-                            Long.getLong((String)body.get("id")), (String) body.get("sub"), (String) body.get("email"), null),
+                    new ApplicationUserDetails(
+                            id, (String) body.get("sub"), (String) body.get("email"), null),
                     null,
                     simpleGrantedAuthorities
             );
