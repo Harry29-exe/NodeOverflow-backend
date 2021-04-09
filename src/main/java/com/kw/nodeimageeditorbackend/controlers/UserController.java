@@ -1,6 +1,7 @@
 package com.kw.nodeimageeditorbackend.controlers;
 
 import com.kw.nodeimageeditorbackend.repositories.UserService;
+import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
@@ -27,7 +28,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:5500")
     @PostMapping("/login")
-    public void login() {
+    public void login(@RequestBody AuthenticationRequest request) {
     }
 
     @PostMapping("/register")
