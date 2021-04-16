@@ -65,5 +65,9 @@ public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
                 .signWith(key)
                 .compact();
         response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader("Access-Control-Allow-Headers", "content-type");
+        response.addHeader("Access-Control-Allow-Methods", "POST");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+
     }
 }

@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("Auth manager" + this.authenticationManager());
         http
                 .csrf().disable()
+//                .csrf()
+//                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new JwtAuthentication(authenticationManager()), UsernamePasswordAuthenticationFilter.class)

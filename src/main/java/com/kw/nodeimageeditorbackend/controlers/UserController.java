@@ -16,8 +16,8 @@ import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+@CrossOrigin
 @RestController
-@CrossOrigin(origins = "http://localhost:5500")
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
@@ -26,7 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "http://localhost:5500")
+
     @PostMapping("/login")
     public void login(@RequestBody AuthenticationRequest request) {
     }
