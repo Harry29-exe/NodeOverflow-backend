@@ -36,6 +36,7 @@ public class UserController {
     public void login(@RequestBody AuthenticationRequest request, HttpServletResponse response) {
         String token = loginService.createAuthenticationToken(request);
         response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
 
     @PostMapping("/token-refresh")
