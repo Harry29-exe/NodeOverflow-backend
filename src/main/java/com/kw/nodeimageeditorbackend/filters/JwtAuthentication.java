@@ -16,11 +16,14 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 
+@Deprecated
 public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationManager authenticationManager;
     private final Key key = Keys.hmacShaKeyFor("gjfdskoghdflkifsdghblfkdjgnbvlkdjshnbvgfkd".getBytes());
@@ -70,5 +73,6 @@ public class JwtAuthentication extends AbstractAuthenticationProcessingFilter {
         response.addHeader("Access-Control-Allow-Methods", "POST");
         response.addHeader("Access-Control-Allow-Origin", "*");
 
+//        chain.doFilter(request, response);
     }
 }

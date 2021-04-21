@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.repositories;
+package com.kw.nodeimageeditorbackend.services;
 
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;

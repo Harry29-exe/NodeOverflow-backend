@@ -1,7 +1,9 @@
-package com.kw.nodeimageeditorbackend.repositories;
+package com.kw.nodeimageeditorbackend.services;
 
 import com.kw.nodeimageeditorbackend.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.entities.UserRoleEntity;
+import com.kw.nodeimageeditorbackend.repositories.UserRepository;
+import com.kw.nodeimageeditorbackend.repositories.UserRoleRepository;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
