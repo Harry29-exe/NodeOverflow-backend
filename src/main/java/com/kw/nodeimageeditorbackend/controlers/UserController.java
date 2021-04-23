@@ -84,4 +84,12 @@ public class UserController {
         System.out.println("we");
         userService.updateUser(request);
     }
+
+
+//    @RequestMapping(path = "/user", method = RequestMethod.OPTIONS)
+//    public void options() {
+//        int i = 0;
+//        i++;
+//        return;
+//    }
 }
