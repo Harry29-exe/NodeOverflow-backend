@@ -101,7 +101,13 @@ public class UserRepositoryService implements UserService {
     public void updateUser(UpdateUserDetailsRequest updateRequest) throws AuthenticationException {
         ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserEntity userEntity = userRepository.findById(updateRequest.getId()).orElseThrow();
-        boolean matches = passwordEncoder.matches(updateRequest.getPassword(), userEntity.getPassword());
+
+        boolean matches;
+        if (updateRequest.getNewPassword() != null) {
+            matches = passwordEncoder.matches(updateRequest.getPassword(), userEntity.getPassword());
+        } else {
+            matches = true;
+        }
         if ( !matches || !user.getId().equals(updateRequest.getId())) {
             throw new AuthenticationException();
         }
@@ -110,13 +116,14 @@ public class UserRepositoryService implements UserService {
             userEntity.setUsername(updateRequest.getName());
         }
         if (updateRequest.getEmail() != null) {
-            userEntity.setEmail(userEntity.getEmail());
+            userEntity.setEmail(updateRequest.getEmail());
         }
         if(updateRequest.getNewPassword() != null) {
             userEntity.setPassword(
                     passwordEncoder.encode(updateRequest.getNewPassword())
             );
         }
+
         userRepository.save(userEntity);
     }
 }

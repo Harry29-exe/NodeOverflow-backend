@@ -80,8 +80,8 @@ public class UserController {
     }
 
     @PatchMapping("/user")
-    public ResponseEntity patchUser(@RequestBody UpdateUserDetailsRequest request) throws AuthenticationException {
+    public void patchUser(@RequestBody UpdateUserDetailsRequest request) throws AuthenticationException {
+        System.out.println("we");
         userService.updateUser(request);
-        return ResponseEntity.ok().build();
     }
 }

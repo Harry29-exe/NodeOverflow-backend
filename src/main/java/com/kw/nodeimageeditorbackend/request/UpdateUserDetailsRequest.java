@@ -18,7 +18,7 @@ public class UpdateUserDetailsRequest {
     private String email;
     @Nullable
     private String newPassword;
-    @NonNull
+    @Nullable
     private String password;
 
 
