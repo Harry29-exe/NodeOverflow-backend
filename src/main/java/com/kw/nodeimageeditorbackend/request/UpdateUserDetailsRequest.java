@@ -20,6 +20,4 @@ public class UpdateUserDetailsRequest {
     private String newPassword;
     @Nullable
     private String password;
-
-
 }

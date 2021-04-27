@@ -11,9 +11,9 @@ import javax.persistence.EntityExistsException;
 
 public interface UserService extends UserDetailsService {
 
-    void createUser(CreateUserRequest newUser) throws EntityExistsException, InvalidAttributeValueException;
+    void createUser(CreateUserRequest newUser);
 
-    void deleteUser(DeleteUserRequest user) throws IllegalAccessException;
+    void deleteUser(DeleteUserRequest user);
 
-    void updateUser(UpdateUserDetailsRequest details) throws AuthenticationException;
+    void updateUser(UpdateUserDetailsRequest details);
 }

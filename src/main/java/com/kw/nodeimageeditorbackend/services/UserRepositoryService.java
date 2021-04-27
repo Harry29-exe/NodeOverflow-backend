@@ -2,6 +2,9 @@ package com.kw.nodeimageeditorbackend.services;
 
 import com.kw.nodeimageeditorbackend.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.entities.UserRoleEntity;
+import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
+import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
+import com.kw.nodeimageeditorbackend.exceptions.registration.InvalidEmailAddress;
 import com.kw.nodeimageeditorbackend.repositories.UserRepository;
 import com.kw.nodeimageeditorbackend.repositories.UserRoleRepository;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
@@ -52,9 +55,9 @@ public class UserRepositoryService implements UserService {
     }
 
     @Override
-    public void createUser(CreateUserRequest newUser) throws EntityExistsException, InvalidAttributeValueException {
+    public void createUser(CreateUserRequest newUser){
         if (newUser.getUsername().contains("@") || !newUser.getEmail().contains("@")) {
-            throw new InvalidAttributeValueException("Username or email are not correct");
+            throw new InvalidEmailAddress("Username or email are not correct");
         } else if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
             throw new EntityExistsException("User with a given username already exist");
         } else if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
@@ -77,7 +80,7 @@ public class UserRepositoryService implements UserService {
     }
 
     @Override
-    public void deleteUser(DeleteUserRequest user) throws IllegalAccessException, EntityNotFoundException {
+    public void deleteUser(DeleteUserRequest user) {
         Optional<UserEntity> userEntity;
         if(user.getUsernameOrEmail().contains("@")) {
             userEntity = userRepository.findByEmail(user.getUsernameOrEmail());
@@ -93,12 +96,12 @@ public class UserRepositoryService implements UserService {
         if(passwordEncoder.matches(user.getPassword(), userToDelete.getPassword())) {
             userRepository.deleteById(userToDelete.getId());
         } else {
-            throw new IllegalAccessException("Password is not correct");
+            throw new BadCredentialsException("Password is not correct");
         }
     }
 
     @Override
-    public void updateUser(UpdateUserDetailsRequest updateRequest) throws AuthenticationException {
+    public void updateUser(UpdateUserDetailsRequest updateRequest) {
         ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserEntity userEntity = userRepository.findById(updateRequest.getId()).orElseThrow();
 
@@ -108,8 +111,12 @@ public class UserRepositoryService implements UserService {
         } else {
             matches = true;
         }
-        if ( !matches || !user.getId().equals(updateRequest.getId())) {
-            throw new AuthenticationException();
+        if ( !matches) {
+            throw new BadCredentialsException();
+        } else if (!user.getId().equals(updateRequest.getId())) {
+            throw new AuthorizationException();
+        } else if (updateRequest.getEmail() != null && !updateRequest.getEmail().contains("@")) {
+            throw new IllegalArgumentException();
         }
 
         if (updateRequest.getName() != null) {

@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.exceptions;
+package com.kw.nodeimageeditorbackend.exceptions.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

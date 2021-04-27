@@ -38,13 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf().disable()
-
-//                .addFilterBefore(new JwtAuthentication(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenVerifier(jwtKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/user").permitAll()
+                .antMatchers("/api/user").authenticated()
                 .antMatchers("/1").permitAll()
                 .antMatchers("/2").authenticated()
                 .anyRequest().permitAll();

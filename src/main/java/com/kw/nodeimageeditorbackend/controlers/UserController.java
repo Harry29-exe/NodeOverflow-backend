@@ -45,42 +45,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity createUser(@RequestBody CreateUserRequest request) {
-        try {
-            userService.createUser(request);
-        } catch (EntityExistsException ex) {
-            return ResponseEntity.status(CONFLICT).build();
-        } catch (InvalidAttributeValueException ex) {
-            return ResponseEntity.status(BAD_REQUEST).header("Warning", ex.getMessage()).build();
-        }
-
-        return ResponseEntity.status(CREATED).build();
+    public void createUser(@RequestBody CreateUserRequest request) {
+        userService.createUser(request);
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity deleteUser(@RequestBody DeleteUserRequest request, ResponseBody responseBody) {
-        ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(request.getUsernameOrEmail().contains("@")) {
-            if(!user.getEmail().equals(request.getUsernameOrEmail())) {
-                return ResponseEntity.status(UNAUTHORIZED).build();
-            }
-        } else if (!user.getUsername().equals(request.getUsernameOrEmail())) {
-            return ResponseEntity.status(UNAUTHORIZED).build();
-        }
-
-        try {
-            userService.deleteUser(request);
-        } catch (IllegalAccessException e) {
-            return ResponseEntity.status(UNAUTHORIZED).build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(EXPECTATION_FAILED).build();
-        }
-
-        return ResponseEntity.ok().build();
+    public void deleteUser(@RequestBody DeleteUserRequest request, ResponseBody responseBody) {
+        userService.deleteUser(request);
     }
 
     @PatchMapping("/user")
-    public void patchUser(@RequestBody UpdateUserDetailsRequest request) throws AuthenticationException {
+    public void patchUser(@RequestBody UpdateUserDetailsRequest request) {
         System.out.println("we");
         userService.updateUser(request);
     }

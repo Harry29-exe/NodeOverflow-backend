@@ -1,13 +1,12 @@
-package com.kw.nodeimageeditorbackend.exceptions;
+package com.kw.nodeimageeditorbackend.exceptions.handlers;
 
+import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
+import com.kw.nodeimageeditorbackend.exceptions.authorization.UserNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.naming.AuthenticationException;
 
 @RestControllerAdvice
 public class AuthorizationAdvice {
@@ -20,9 +19,9 @@ public class AuthorizationAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String authenticationFail(AuthenticationException ex) {
+    public String authenticationFail(UserNotFoundException ex) {
         return ex.getMessage();
     }
 }
