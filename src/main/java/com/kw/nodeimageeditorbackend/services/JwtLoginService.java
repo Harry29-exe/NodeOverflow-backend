@@ -6,10 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -40,7 +38,7 @@ public class JwtLoginService implements LoginService {
     }
 
     private String createJwtToken(Authentication authentication) {
-        System.out.println( authentication.getClass()  );
+        System.out.println(authentication.getClass());
         ApplicationUserDetails user = (ApplicationUserDetails) authentication.getPrincipal();
         HashMap<String, String> claims = new HashMap<>();
         claims.put("email", user.getEmail());

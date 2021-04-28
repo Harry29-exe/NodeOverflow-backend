@@ -1,6 +1,5 @@
 package com.kw.nodeimageeditorbackend.security;
 
-import com.kw.nodeimageeditorbackend.filters.JwtAuthentication;
 import com.kw.nodeimageeditorbackend.filters.JwtTokenVerifier;
 import com.kw.nodeimageeditorbackend.services.UserRepositoryService;
 import io.jsonwebtoken.security.Keys;
@@ -13,10 +12,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.security.Key;
 

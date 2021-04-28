@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.entities;
+package com.kw.nodeimageeditorbackend.entities.user;
 
 import com.kw.nodeimageeditorbackend.security.UserRole;
 import lombok.Data;
@@ -31,11 +31,6 @@ public class UserRoleEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-//    @PreRemove
-//    public void preRemove() {
-//        user = null;
-//    }
 
     @Override
     public String toString() {

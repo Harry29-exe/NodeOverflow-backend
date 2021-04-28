@@ -1,6 +1,6 @@
 package com.kw.nodeimageeditorbackend.repositories;
 
-import com.kw.nodeimageeditorbackend.entities.UserEntity;
+import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

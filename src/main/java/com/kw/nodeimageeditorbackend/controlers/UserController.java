@@ -1,24 +1,15 @@
 package com.kw.nodeimageeditorbackend.controlers;
 
-import com.kw.nodeimageeditorbackend.services.LoginService;
-import com.kw.nodeimageeditorbackend.services.UserService;
 import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
-import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.kw.nodeimageeditorbackend.services.LoginService;
+import com.kw.nodeimageeditorbackend.services.UserService;
 import org.springframework.web.bind.annotation.*;
-import static org.springframework.http.HttpStatus.*;
 
-import javax.naming.AuthenticationException;
-import javax.naming.directory.InvalidAttributeValueException;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -40,17 +31,18 @@ public class UserController {
     }
 
     @PostMapping("/token-refresh")
-    public void refresh(@RequestHeader String authentication) {
+    public void refresh(@CookieValue(value = "token") String refreshToken,
+                        @RequestHeader String authentication) {
 
     }
 
     @PostMapping("/register")
-    public void createUser(@RequestBody CreateUserRequest request) {
+    public void createUser(@RequestBody @Valid CreateUserRequest request) {
         userService.createUser(request);
     }
 
     @DeleteMapping("/user")
-    public void deleteUser(@RequestBody DeleteUserRequest request, ResponseBody responseBody) {
+    public void deleteUser(@RequestBody DeleteUserRequest request) {
         userService.deleteUser(request);
     }
 

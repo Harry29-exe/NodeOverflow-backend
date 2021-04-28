@@ -1,10 +1,9 @@
 package com.kw.nodeimageeditorbackend.services;
 
-import com.kw.nodeimageeditorbackend.entities.UserEntity;
-import com.kw.nodeimageeditorbackend.entities.UserRoleEntity;
+import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
+import com.kw.nodeimageeditorbackend.entities.user.UserRoleEntity;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
-import com.kw.nodeimageeditorbackend.exceptions.registration.InvalidEmailAddress;
 import com.kw.nodeimageeditorbackend.repositories.UserRepository;
 import com.kw.nodeimageeditorbackend.repositories.UserRoleRepository;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
@@ -17,11 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
-import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Random;
 
 import static com.kw.nodeimageeditorbackend.security.UserRole.USER;
 
@@ -49,16 +48,14 @@ public class UserRepositoryService implements UserService {
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Username not found");
-        } else {
-            return new ApplicationUserDetails(user.get());
         }
+
+        return new ApplicationUserDetails(user.get());
     }
 
     @Override
-    public void createUser(CreateUserRequest newUser){
-        if (newUser.getUsername().contains("@") || !newUser.getEmail().contains("@")) {
-            throw new InvalidEmailAddress("Username or email are not correct");
-        } else if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
+    public void createUser(CreateUserRequest newUser) {
+        if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
             throw new EntityExistsException("User with a given username already exist");
         } else if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
             throw new EntityExistsException("User with a given email already exits");
@@ -82,18 +79,18 @@ public class UserRepositoryService implements UserService {
     @Override
     public void deleteUser(DeleteUserRequest user) {
         Optional<UserEntity> userEntity;
-        if(user.getUsernameOrEmail().contains("@")) {
+        if (user.getUsernameOrEmail().contains("@")) {
             userEntity = userRepository.findByEmail(user.getUsernameOrEmail());
         } else {
             userEntity = userRepository.findByUsername(user.getUsernameOrEmail());
         }
 
-        if(userEntity.isEmpty()) {
+        if (userEntity.isEmpty()) {
             throw new EntityNotFoundException();
         }
         UserEntity userToDelete = userEntity.get();
 
-        if(passwordEncoder.matches(user.getPassword(), userToDelete.getPassword())) {
+        if (passwordEncoder.matches(user.getPassword(), userToDelete.getPassword())) {
             userRepository.deleteById(userToDelete.getId());
         } else {
             throw new BadCredentialsException("Password is not correct");
@@ -111,7 +108,7 @@ public class UserRepositoryService implements UserService {
         } else {
             matches = true;
         }
-        if ( !matches) {
+        if (!matches) {
             throw new BadCredentialsException();
         } else if (!user.getId().equals(updateRequest.getId())) {
             throw new AuthorizationException();
@@ -125,7 +122,7 @@ public class UserRepositoryService implements UserService {
         if (updateRequest.getEmail() != null) {
             userEntity.setEmail(updateRequest.getEmail());
         }
-        if(updateRequest.getNewPassword() != null) {
+        if (updateRequest.getNewPassword() != null) {
             userEntity.setPassword(
                     passwordEncoder.encode(updateRequest.getNewPassword())
             );

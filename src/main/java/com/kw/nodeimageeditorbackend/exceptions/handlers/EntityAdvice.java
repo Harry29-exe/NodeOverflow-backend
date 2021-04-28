@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+
 @RestControllerAdvice
 public class EntityAdvice {
 

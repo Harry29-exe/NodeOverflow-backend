@@ -2,8 +2,6 @@ package com.kw.nodeimageeditorbackend.request;
 
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotBlank;
-
 public class AuthenticationRequest {
     @NonNull
     private String username;

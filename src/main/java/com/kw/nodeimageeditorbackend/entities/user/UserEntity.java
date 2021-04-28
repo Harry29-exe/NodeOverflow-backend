@@ -1,11 +1,10 @@
-package com.kw.nodeimageeditorbackend.entities;
+package com.kw.nodeimageeditorbackend.entities.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,9 +30,4 @@ public class UserEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity = UserRoleEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRoleEntity> roles;
-
-//    @PreRemove
-//    public void preRemove() {
-//        roles.forEach(r -> r.setUser(null));
-//    }
 }
