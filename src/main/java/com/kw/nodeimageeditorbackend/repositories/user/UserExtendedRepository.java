@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.repositories;
+package com.kw.nodeimageeditorbackend.repositories.user;
 
 
 public interface UserExtendedRepository {

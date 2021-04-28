@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.services;
+package com.kw.nodeimageeditorbackend.services.user;
 
 import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;

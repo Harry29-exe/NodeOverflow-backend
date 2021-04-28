@@ -4,8 +4,8 @@ import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
-import com.kw.nodeimageeditorbackend.services.LoginService;
-import com.kw.nodeimageeditorbackend.services.UserService;
+import com.kw.nodeimageeditorbackend.services.user.LoginService;
+import com.kw.nodeimageeditorbackend.services.user.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

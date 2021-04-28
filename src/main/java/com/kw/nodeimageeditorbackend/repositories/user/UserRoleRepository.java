@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.repositories;
+package com.kw.nodeimageeditorbackend.repositories.user;
 
 import com.kw.nodeimageeditorbackend.entities.user.UserRoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

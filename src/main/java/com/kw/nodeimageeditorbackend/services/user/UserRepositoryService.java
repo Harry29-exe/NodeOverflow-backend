@@ -1,11 +1,11 @@
-package com.kw.nodeimageeditorbackend.services;
+package com.kw.nodeimageeditorbackend.services.user;
 
 import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
 import com.kw.nodeimageeditorbackend.entities.user.UserRoleEntity;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
-import com.kw.nodeimageeditorbackend.repositories.UserRepository;
-import com.kw.nodeimageeditorbackend.repositories.UserRoleRepository;
+import com.kw.nodeimageeditorbackend.repositories.user.UserRepository;
+import com.kw.nodeimageeditorbackend.repositories.user.UserRoleRepository;
 import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
 import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
