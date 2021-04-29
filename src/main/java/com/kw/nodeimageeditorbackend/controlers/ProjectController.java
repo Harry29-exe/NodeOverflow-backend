@@ -20,8 +20,8 @@ public class ProjectController {
 
     @GetMapping("projects")
     private List<ProjectDto> getProjects(@RequestParam Long userId) {
-        System.out.println("we");
-        List<ProjectDto> projects = projectService.getUserProjects(userId);
-        return projects;
+        return projectService.getUserProjects(userId);
     }
+
+
 }

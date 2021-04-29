@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "project_collaborators")
-public class ProjectCollaborator {
+public class ProjectCollaboratorEntity {
 
     @Id
     @Column

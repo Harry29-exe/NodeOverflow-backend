@@ -1,5 +1,6 @@
 package com.kw.nodeimageeditorbackend.entities.project;
 
+import com.kw.nodeimageeditorbackend.entities.enums.AccessModifier;
 import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,14 +24,24 @@ public class ProjectEntity {
     @JoinColumn(name = "owner_id")
     private UserEntity projectOwner;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-    private List<ProjectCollaborator> collaborators;
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "project",
+            cascade = CascadeType.ALL)
+    private List<ProjectCollaboratorEntity> collaborators;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "project",
+            cascade = CascadeType.ALL)
     private List<ProjectTag> tags;
 
+    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProjectDataEntity projectData;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "access_modifier")
-    private String accessModifier;
+    private AccessModifier accessModifier;
 
     @Column(name = "title")
     private String title;
