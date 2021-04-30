@@ -2,20 +2,24 @@ package com.kw.nodeimageeditorbackend.services.project;
 
 import com.kw.nodeimageeditorbackend.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.dto.ProjectDto;
+import com.kw.nodeimageeditorbackend.entities.project.ProjectCollaboratorEntity;
 import com.kw.nodeimageeditorbackend.entities.project.ProjectEntity;
 import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
+import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityDoesNotExist;
 import com.kw.nodeimageeditorbackend.repositories.project.ProjectRepository;
 import com.kw.nodeimageeditorbackend.repositories.user.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceRepository implements ProjectService {
-    private ProjectRepository projectRepository;
-    private UserRepository userRepository;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public ProjectServiceRepository(ProjectRepository projectRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
@@ -24,8 +28,7 @@ public class ProjectServiceRepository implements ProjectService {
 
     @Override
     public List<ProjectDetailsDto> getUserProjectsDetails(Long userId) {
-        UserEntity user = userRepository.getOne(userId);
-        List<ProjectEntity> projectEntities = projectRepository.findAllByProjectOwner(user);
+        List<ProjectEntity> projectEntities = projectRepository.findAllByProjectOwnerId(userId);
 
         return projectEntities.stream()
                 .map(ProjectDetailsDto::new)
@@ -33,8 +36,9 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public ProjectDto getProject(Long projectId) {
+    public ProjectDto getProject(Long projectId, boolean withProjectDetails) {
+        var projectEntity = projectRepository.findOneById(projectId);
 
-        return null;
+        return new ProjectDto(projectEntity.orElseThrow(EntityDoesNotExist::new));
     }
 }

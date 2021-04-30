@@ -1,11 +1,12 @@
 package com.kw.nodeimageeditorbackend.dto;
 
 import com.kw.nodeimageeditorbackend.entities.enums.AccessModifier;
-import com.kw.nodeimageeditorbackend.entities.project.ProjectDataEntity;
 import com.kw.nodeimageeditorbackend.entities.project.ProjectEntity;
-import com.kw.nodeimageeditorbackend.entities.project.ProjectTag;
+import com.kw.nodeimageeditorbackend.entities.project.ProjectTagEntity;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +23,25 @@ public class ProjectMetadataDto {
         this.title = entity.getTitle();
         this.creationDate = entity.getCreationDate();
         this.lastModified = entity.getCreationDate();
-        this.tags = entity.getTags().stream()
-                .map(ProjectTag::getContent)
-                .collect(Collectors.toList());
+        this.tags = readTags(entity);
         this.accessModifier = entity.getAccessModifier();
+    }
+
+    public ProjectMetadataDto(ProjectEntity entity, boolean readTags) {
+        this.title = entity.getTitle();
+        this.creationDate = entity.getCreationDate();
+        this.lastModified = entity.getCreationDate();
+        this.accessModifier = entity.getAccessModifier();
+        if(readTags) {
+            this.tags = readTags(entity);
+        } else {
+            this.tags = new ArrayList<>(0);
+        }
+    }
+
+    private List<String> readTags(ProjectEntity entity) {
+        return entity.getTags().stream()
+                .map(ProjectTagEntity::getContent)
+                .collect(Collectors.toList());
     }
 }

@@ -20,7 +20,7 @@ public class ProjectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private UserEntity projectOwner;
 
@@ -34,7 +34,7 @@ public class ProjectEntity {
             fetch = FetchType.LAZY,
             mappedBy = "project",
             cascade = CascadeType.ALL)
-    private List<ProjectTag> tags;
+    private List<ProjectTagEntity> tags;
 
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProjectDataEntity projectData;

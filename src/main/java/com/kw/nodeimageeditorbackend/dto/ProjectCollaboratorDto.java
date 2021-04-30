@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class ProjectCollaboratorDto {
     private String collaboratorUsername;
+    private Long collaboratorId;
     private boolean canWrite;
     private boolean canFork;
 
@@ -16,5 +17,6 @@ public class ProjectCollaboratorDto {
         this.collaboratorUsername = entity.getCollaborator().getUsername();
         this.canWrite = entity.getCanWrite();
         this.canFork = entity.getCanFork();
+        this.collaboratorId = entity.getId();
     }
 }

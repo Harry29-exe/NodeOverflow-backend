@@ -7,4 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class AuthorizationException extends ApplicationException {
 
+    public AuthorizationException() {
+        super("You have no right to do this");
+    }
+
+    public AuthorizationException(String message) {
+        super(message);
+    }
 }
