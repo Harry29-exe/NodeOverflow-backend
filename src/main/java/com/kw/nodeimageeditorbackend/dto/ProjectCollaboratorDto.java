@@ -1,10 +1,7 @@
 package com.kw.nodeimageeditorbackend.dto;
 
 import com.kw.nodeimageeditorbackend.entities.project.ProjectCollaboratorEntity;
-import com.kw.nodeimageeditorbackend.entities.project.ProjectEntity;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ProjectCollaboratorDto {

@@ -1,7 +1,7 @@
 package com.kw.nodeimageeditorbackend.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
+import com.kw.nodeimageeditorbackend.request.user.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

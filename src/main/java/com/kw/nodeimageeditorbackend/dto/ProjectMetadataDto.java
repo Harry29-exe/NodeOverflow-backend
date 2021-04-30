@@ -6,7 +6,6 @@ import com.kw.nodeimageeditorbackend.entities.project.ProjectTagEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ public class ProjectMetadataDto {
         this.creationDate = entity.getCreationDate();
         this.lastModified = entity.getCreationDate();
         this.accessModifier = entity.getAccessModifier();
-        if(readTags) {
+        if (readTags) {
             this.tags = readTags(entity);
         } else {
             this.tags = new ArrayList<>(0);

@@ -2,7 +2,6 @@ package com.kw.nodeimageeditorbackend.repositories.project;
 
 import com.kw.nodeimageeditorbackend.entities.project.ProjectCollaboratorEntity;
 import com.kw.nodeimageeditorbackend.entities.project.ProjectEntity;
-import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RestController;

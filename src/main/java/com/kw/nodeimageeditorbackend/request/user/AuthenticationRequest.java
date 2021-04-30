@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.request;
+package com.kw.nodeimageeditorbackend.request.user;
 
 import org.springframework.lang.NonNull;
 

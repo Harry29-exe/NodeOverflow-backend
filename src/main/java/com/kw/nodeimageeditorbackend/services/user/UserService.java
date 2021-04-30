@@ -1,8 +1,8 @@
 package com.kw.nodeimageeditorbackend.services.user;
 
-import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
-import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
-import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
+import com.kw.nodeimageeditorbackend.request.user.CreateUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.DeleteUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.UpdateUserDetailsRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {

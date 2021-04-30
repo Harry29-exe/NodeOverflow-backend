@@ -1,9 +1,9 @@
 package com.kw.nodeimageeditorbackend.controlers;
 
-import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
-import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
-import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
-import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
+import com.kw.nodeimageeditorbackend.request.user.AuthenticationRequest;
+import com.kw.nodeimageeditorbackend.request.user.CreateUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.DeleteUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.UpdateUserDetailsRequest;
 import com.kw.nodeimageeditorbackend.services.user.LoginService;
 import com.kw.nodeimageeditorbackend.services.user.UserService;
 import org.springframework.web.bind.annotation.*;

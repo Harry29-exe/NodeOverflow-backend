@@ -2,16 +2,16 @@ package com.kw.nodeimageeditorbackend.controlers;
 
 import com.kw.nodeimageeditorbackend.dto.ProjectDto;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
+import com.kw.nodeimageeditorbackend.request.project.CreateProjectRequest;
 import com.kw.nodeimageeditorbackend.responses.GetProjectsResponse;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import com.kw.nodeimageeditorbackend.services.project.ProjectService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.naming.OperationNotSupportedException;
+import javax.validation.Valid;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ProjectController {
     }
 
     @GetMapping("projects")
-    private GetProjectsResponse getProjects() {
+    public GetProjectsResponse getProjects() {
         ApplicationUserDetails userDetails = (ApplicationUserDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -39,7 +39,7 @@ public class ProjectController {
     //TODO ask var
     //TODO security layer
     @GetMapping("project")
-    private ProjectDto getProject(
+    public ProjectDto getProject(
             @RequestParam Long projectId,
             @RequestParam(defaultValue = "false") Boolean withDetails) {
 
@@ -54,6 +54,12 @@ public class ProjectController {
         }
 
         return project;
+    }
+
+    @PostMapping("project")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveProject(@RequestBody @Valid CreateProjectRequest request) throws OperationNotSupportedException {
+        throw new OperationNotSupportedException();
     }
 
     //TODO ask

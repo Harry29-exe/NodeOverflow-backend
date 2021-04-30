@@ -6,9 +6,9 @@ import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationExcep
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
 import com.kw.nodeimageeditorbackend.repositories.user.UserRepository;
 import com.kw.nodeimageeditorbackend.repositories.user.UserRoleRepository;
-import com.kw.nodeimageeditorbackend.request.CreateUserRequest;
-import com.kw.nodeimageeditorbackend.request.DeleteUserRequest;
-import com.kw.nodeimageeditorbackend.request.UpdateUserDetailsRequest;
+import com.kw.nodeimageeditorbackend.request.user.CreateUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.DeleteUserRequest;
+import com.kw.nodeimageeditorbackend.request.user.UpdateUserDetailsRequest;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

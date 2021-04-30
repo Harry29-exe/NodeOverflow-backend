@@ -2,7 +2,6 @@ package com.kw.nodeimageeditorbackend.services.project;
 
 import com.kw.nodeimageeditorbackend.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.dto.ProjectDto;
-import com.kw.nodeimageeditorbackend.dto.UserDto;
 
 import java.util.List;
 

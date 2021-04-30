@@ -1,6 +1,6 @@
 package com.kw.nodeimageeditorbackend.services.user;
 
-import com.kw.nodeimageeditorbackend.request.AuthenticationRequest;
+import com.kw.nodeimageeditorbackend.request.user.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
