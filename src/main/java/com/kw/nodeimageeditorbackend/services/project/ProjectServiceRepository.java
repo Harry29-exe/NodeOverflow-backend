@@ -1,5 +1,6 @@
 package com.kw.nodeimageeditorbackend.services.project;
 
+import com.kw.nodeimageeditorbackend.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.dto.ProjectDto;
 import com.kw.nodeimageeditorbackend.entities.project.ProjectEntity;
 import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceRepository implements ProjectService {
@@ -21,13 +23,18 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public List<ProjectDto> getUserProjects(Long userId) {
+    public List<ProjectDetailsDto> getUserProjectsDetails(Long userId) {
         UserEntity user = userRepository.getOne(userId);
         List<ProjectEntity> projectEntities = projectRepository.findAllByProjectOwner(user);
-        List<ProjectDto> projects = new ArrayList<>();
 
-        projectEntities.forEach(projectEntity -> projects.add(new ProjectDto(projectEntity)));
-        return projects;
+        return projectEntities.stream()
+                .map(ProjectDetailsDto::new)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public ProjectDto getProject(Long projectId) {
+
+        return null;
+    }
 }

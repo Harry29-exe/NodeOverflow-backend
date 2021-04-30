@@ -15,9 +15,9 @@ public class ProjectDataEntity {
     @Column(name = "project_id")
     private Long id;
 
-    //TODO potencjalnie typ "byte" nie zadziała
+    //TODO String powinien być mappowanny do jsonb
     @Column(name = "project_data")
-    private byte[] projectData;
+    private String projectData;
 
     @OneToOne
     @JoinColumn(name = "project_id")
