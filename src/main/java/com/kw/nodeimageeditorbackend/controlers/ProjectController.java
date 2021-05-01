@@ -7,6 +7,7 @@ import com.kw.nodeimageeditorbackend.responses.GetProjectsResponse;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import com.kw.nodeimageeditorbackend.services.project.ProjectService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,11 @@ public class ProjectController {
     @GetMapping("project")
     public ProjectDto getProject(
             @RequestParam Long projectId,
-            @RequestParam(defaultValue = "false") Boolean withDetails) {
+            @RequestParam(defaultValue = "false") Boolean withDetails,
+            Authentication authorization) {
 
-        var userDetails = getAuthorizationDetails();
+//        var userDetails = getAuthorizationDetails();
+        var userDetails = (ApplicationUserDetails) authorization.getDetails();
         var project = projectService.getProject(projectId, withDetails);
 
 

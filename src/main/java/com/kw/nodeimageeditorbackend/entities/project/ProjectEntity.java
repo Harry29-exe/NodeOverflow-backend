@@ -27,16 +27,22 @@ public class ProjectEntity {
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "project",
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<ProjectCollaboratorEntity> collaborators;
 
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "project",
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<ProjectTagEntity> tags;
 
-    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(
+            mappedBy = "project",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     private ProjectDataEntity projectData;
 
     @Enumerated(EnumType.STRING)

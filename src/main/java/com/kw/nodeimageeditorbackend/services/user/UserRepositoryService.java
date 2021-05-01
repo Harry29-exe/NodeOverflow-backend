@@ -108,6 +108,8 @@ public class UserRepositoryService implements UserService {
         } else {
             matches = true;
         }
+
+        //TODO not handled exceptions
         if (!matches) {
             throw new BadCredentialsException();
         } else if (!user.getId().equals(updateRequest.getId())) {

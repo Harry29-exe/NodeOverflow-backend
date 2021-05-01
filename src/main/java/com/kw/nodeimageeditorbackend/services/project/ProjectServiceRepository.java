@@ -36,4 +36,24 @@ public class ProjectServiceRepository implements ProjectService {
 
         return new ProjectDto(projectEntity.orElseThrow(EntityDoesNotExist::new));
     }
+
+    @Override
+    public List<ProjectDetailsDto> searchProjects(String searchPhrase) {
+        return null;
+    }
+
+    @Override
+    public void saveProject(ProjectDto projectDto) {
+
+    }
+
+    @Override
+    public void updateProject(ProjectDto projectDto) {
+
+    }
+
+    @Override
+    public void deleteProject(Long projectId) {
+
+    }
 }
