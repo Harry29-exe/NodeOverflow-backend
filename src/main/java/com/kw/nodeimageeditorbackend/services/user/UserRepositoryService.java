@@ -4,6 +4,7 @@ import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
 import com.kw.nodeimageeditorbackend.entities.user.UserRoleEntity;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
+import com.kw.nodeimageeditorbackend.exceptions.general.BadRequestException;
 import com.kw.nodeimageeditorbackend.repositories.user.UserRepository;
 import com.kw.nodeimageeditorbackend.repositories.user.UserRoleRepository;
 import com.kw.nodeimageeditorbackend.request.user.CreateUserRequest;
@@ -115,7 +116,7 @@ public class UserRepositoryService implements UserService {
         } else if (!user.getId().equals(updateRequest.getId())) {
             throw new AuthorizationException();
         } else if (updateRequest.getEmail() != null && !updateRequest.getEmail().contains("@")) {
-            throw new IllegalArgumentException();
+            throw new BadRequestException();
         }
 
         if (updateRequest.getName() != null) {

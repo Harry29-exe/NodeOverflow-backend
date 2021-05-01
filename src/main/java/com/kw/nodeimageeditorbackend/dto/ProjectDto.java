@@ -54,17 +54,17 @@ public class ProjectDto {
         this.projectDetails = new ProjectMetadataDto(entity, false);
         this.owner = new UserDto(entity.getProjectOwner());
 
-        this.projectData = readProjectData?
+        this.projectData = readProjectData ?
                 entity.getProjectData().getProjectData()
                 : null;
-        this.collaborators = loadCollaborators?
+        this.collaborators = loadCollaborators ?
                 entity.getCollaborators().stream()
-                .map(ProjectCollaboratorDto::new).collect(Collectors.toList())
+                        .map(ProjectCollaboratorDto::new).collect(Collectors.toList())
                 : new LinkedList<>();
-        this.tags = loadTags?
+        this.tags = loadTags ?
                 entity.getTags().stream()
-                .map(ProjectTagEntity::getContent)
-                .collect(Collectors.toList())
+                        .map(ProjectTagEntity::getContent)
+                        .collect(Collectors.toList())
                 : new LinkedList<>();
     }
 }

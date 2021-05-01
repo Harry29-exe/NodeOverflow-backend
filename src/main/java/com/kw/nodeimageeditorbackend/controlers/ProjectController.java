@@ -23,7 +23,7 @@ import static com.kw.nodeimageeditorbackend.entities.enums.AccessModifier.PUBLIC
 @RestController
 @RequestMapping("/api/")
 public class ProjectController {
-    private ProjectService projectService;
+    private final ProjectService projectService;
 
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;

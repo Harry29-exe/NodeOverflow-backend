@@ -1,11 +1,11 @@
 package com.kw.nodeimageeditorbackend.request.user;
 
-import org.springframework.lang.NonNull;
+import javax.validation.constraints.NotEmpty;
 
 public class AuthenticationRequest {
-    @NonNull
+    @NotEmpty
     private String username;
-    @NonNull
+    @NotEmpty
     private String password;
 
     public AuthenticationRequest() {
