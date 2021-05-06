@@ -1,7 +1,7 @@
 package com.kw.nodeimageeditorbackend.security;
 
 import com.kw.nodeimageeditorbackend.filters.JwtTokenVerifier;
-import com.kw.nodeimageeditorbackend.services.user.UserRepositoryService;
+import com.kw.nodeimageeditorbackend.user.services.UserRepositoryService;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

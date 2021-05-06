@@ -1,6 +1,6 @@
 package com.kw.nodeimageeditorbackend.security;
 
-import com.kw.nodeimageeditorbackend.entities.user.UserEntity;
+import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

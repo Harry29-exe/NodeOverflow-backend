@@ -1,8 +1,8 @@
 package com.kw.nodeimageeditorbackend.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kw.nodeimageeditorbackend.request.user.AuthenticationRequest;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.user.requests.AuthenticationRequest;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
