@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProjectDetailsService {
 
-    List<ProjectDetailsDto> searchProjects(GetFilteredProjectDetailsRequest searchPhrase, Long userId);
+    List<ProjectDetailsDto> searchProjects(GetFilteredProjectDetailsRequest searchPhrase, Long userId, Boolean findCollaborationProjects);
 
     List<ProjectDetailsDto> getUserProjectsDetails(Long userId, Boolean findCollaborationProjects);
 

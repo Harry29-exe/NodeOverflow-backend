@@ -37,9 +37,10 @@ public class ProjectDetailsController {
     @ResponseStatus(HttpStatus.OK)
     public GetProjectsResponse filterAndGetProjects(
             @RequestBody @Valid GetFilteredProjectDetailsRequest request,
+            @RequestParam(defaultValue = "false") Boolean findCollaborationProjects,
             Authentication authentication) {
         var userDetails = (ApplicationUserDetails) authentication.getPrincipal();
-        var projects = projectDetailsService.searchProjects(request, userDetails.getId());
+        var projects = projectDetailsService.searchProjects(request, userDetails.getId(), findCollaborationProjects);
 
         return new GetProjectsResponse(projects);
     }

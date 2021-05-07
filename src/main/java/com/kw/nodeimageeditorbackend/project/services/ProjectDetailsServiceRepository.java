@@ -40,10 +40,22 @@ public class ProjectDetailsServiceRepository implements ProjectDetailsService {
     @Override
     public List<ProjectDetailsDto> searchProjects(
             GetFilteredProjectDetailsRequest request,
-            Long userId) {
+            Long userId,
+            Boolean findCollaborationProjects) {
+        var usersProjectsEntity = projectRepository
+                .findAllByProjectOwnerIdAndCreationDateBetweenAndLastModifiedBetween(
+                        userId,
+                        request.getCreateBefore(), request.getCreatedAfter(),
+                        request.getModifiedBefore(), request.getModifiedAfter());
+        if (findCollaborationProjects) {
+            var projectsEntity = projectRepository.findAllByCollaboratorId(userId);
+            usersProjectsEntity.addAll(projectsEntity);
+        }
 
-        var project = this.getUserProjectsDetails(userId, true);
-        return this.filterProjects(project, request.getSearchPhrase());
+        var projects = usersProjectsEntity
+                .stream().map(ProjectDetailsDto::new)
+                .collect(Collectors.toList());
+        return this.filterProjects(projects, request.getSearchPhrase());
     }
 
     private List<ProjectDetailsDto> filterProjects(
