@@ -1,19 +1,29 @@
 package com.kw.nodeimageeditorbackend.project.services;
 
+import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
 import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.project.dto.ProjectDto;
+import com.kw.nodeimageeditorbackend.project.entities.ProjectCollaboratorEntity;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectDataEntity;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
+import com.kw.nodeimageeditorbackend.project.entities.ProjectTagEntity;
+import com.kw.nodeimageeditorbackend.project.enums.ProjectPermission;
 import com.kw.nodeimageeditorbackend.project.repositories.ProjectRepository;
 import com.kw.nodeimageeditorbackend.project.requests.CreateNewProjectRequest;
-import com.kw.nodeimageeditorbackend.user.dto.UserDto;
+import com.kw.nodeimageeditorbackend.project.requests.SaveProjectRequest;
+import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.kw.nodeimageeditorbackend.project.entities.AccessModifier.PROTECTED;
+import static com.kw.nodeimageeditorbackend.project.entities.AccessModifier.PUBLIC;
+import static com.kw.nodeimageeditorbackend.project.enums.ProjectPermission.*;
 
 @Service
 public class ProjectServiceRepository implements ProjectService {
@@ -35,31 +45,72 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public ProjectDto getProject(Long projectId, boolean withProjectDetails) {
-        var projectEntity = projectRepository.findOneById(projectId);
+    public ProjectDto getProject(Long projectId, Long userId, boolean withProjectDetails) {
+        var projectEntity = projectRepository.findById(projectId)
+                .orElseThrow(EntityNotExistException::new);
+        var project = new ProjectDto(projectEntity, withProjectDetails);
 
-        return new ProjectDto(projectEntity.orElseThrow(EntityNotExistException::new));
+        if (!hasPermission(projectEntity, userId, READ)) {
+            throw new AuthorizationException("You do not have permission to read this project");
+        }
+
+        return project;
     }
 
     @Override
     public void createProject(CreateNewProjectRequest request, Long ownerId) {
-        var owner = userRepository.findById(ownerId).orElseThrow(EntityNotExistException::new);
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setTitle(request.getTitle());
+        projectEntity.setCreationDate(new Date());
+        projectEntity.setLastModified(new Date());
+        projectEntity.setAccessModifier(request.getAccessModifier());
 
-        ProjectEntity entity = new ProjectEntity();
-        entity.setTitle(request.getTitle());
-        entity.setCreationDate(new Date());
-        entity.setLastModified(new Date());
-        entity.setAccessModifier(request.getAccessModifier());
-        entity.setProjectOwner(owner);
+        UserEntity owner = new UserEntity();
+        owner.setId(ownerId);
+        projectEntity.setProjectOwner(owner);
 
         ProjectDataEntity dataEntity = new ProjectDataEntity();
         dataEntity.setProjectData(request.getProjectData());
-        dataEntity.setProject(entity);
-        entity.setProjectData(dataEntity);
+        dataEntity.setProject(projectEntity);
+        projectEntity.setProjectData(dataEntity);
 
-        projectRepository.save(entity);
+        List<ProjectCollaboratorEntity> collaborators = new LinkedList<>();
+        request.getCollaborators().forEach(collaborator -> {
+            var collaboratorEntity = new ProjectCollaboratorEntity();
+            var userEntity = new UserEntity();
+            userEntity.setId(collaborator.getCollaboratorId());
+            collaboratorEntity.setCollaborator(userEntity);
+            collaboratorEntity.setCanFork(collaborator.getCanFork());
+            collaboratorEntity.setCanWrite(collaborator.getCanWrite());
+            collaboratorEntity.setProject(projectEntity);
+            collaborators.add(collaboratorEntity);
+        });
+        projectEntity.setCollaborators(collaborators);
 
+        List<ProjectTagEntity> tags = new LinkedList<>();
+        request.getTags().forEach(tag -> {
+            var tagEntity = new ProjectTagEntity();
+            tagEntity.setProject(projectEntity);
+            tagEntity.setContent(tag);
+            tags.add(tagEntity);
+        });
+        projectEntity.setTags(tags);
 
+        projectRepository.save(projectEntity);
+    }
+
+    @Override
+    public void saveProjectData(SaveProjectRequest request, Long ownerId) {
+        var projectToModify = projectRepository.findOneById(request.getProjectId())
+                .orElseThrow(EntityNotExistException::new);
+        if (!hasPermission(projectToModify, ownerId, WRITE)) {
+            throw new AuthorizationException();
+        }
+
+        projectToModify.getProjectData().setProjectData(request.getProjectData());
+        projectToModify.setLastModified(new Date());
+
+        projectRepository.save(projectToModify);
     }
 
     @Override
@@ -68,17 +119,53 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public void saveProject(ProjectDto projectDto) {
+    public void updateProjectDetails(ProjectDto projectDto, Long ownerId) {
 
     }
 
     @Override
-    public void updateProject(ProjectDto projectDto) {
+    public void deleteProject(Long projectId, Long ownerId) {
+        var projectEntity = projectRepository.findOneById(projectId)
+                .orElseThrow(EntityNotExistException::new);
 
+        if (!projectEntity.getProjectOwner().getId().equals(ownerId)) {
+            throw new AuthorizationException("Only project owner can delete project");
+        }
+
+        projectRepository.delete(projectEntity);
     }
 
-    @Override
-    public void deleteProject(Long projectId) {
+    private boolean hasPermission(
+            ProjectEntity projectEntity,
+            Long userId,
+            ProjectPermission permission) {
 
+        var accessMod = projectEntity.getAccessModifier();
+
+        return userId.equals(projectEntity.getProjectOwner().getId()) ||
+                permission == READ && (accessMod == PUBLIC || accessMod == PROTECTED) ||
+                getPermissions(projectEntity, userId).contains(permission);
+    }
+
+    private List<ProjectPermission> getPermissions(ProjectEntity project, Long userID) {
+        if (project.getProjectOwner().getId().equals(userID)) {
+            return List.of(READ, WRITE, FORK);
+        }
+
+        for (var user : project.getCollaborators()) {
+            if (user.getCollaborator().getId().equals(userID)) {
+                var permissions = new LinkedList<ProjectPermission>();
+                permissions.add(READ);
+                if (user.getCanFork()) {
+                    permissions.add(FORK);
+                }
+                if (user.getCanWrite()) {
+                    permissions.add(WRITE);
+                }
+                return permissions;
+            }
+        }
+
+        return new LinkedList<>();
     }
 }

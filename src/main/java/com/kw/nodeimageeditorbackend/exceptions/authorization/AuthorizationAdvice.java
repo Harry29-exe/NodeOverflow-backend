@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.exceptions.handlers;
+package com.kw.nodeimageeditorbackend.exceptions.authorization;
 
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.UserNotFoundException;

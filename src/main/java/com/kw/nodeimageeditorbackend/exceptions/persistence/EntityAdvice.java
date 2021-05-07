@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.exceptions.handlers;
+package com.kw.nodeimageeditorbackend.exceptions.persistence;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +12,13 @@ import javax.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class EntityAdvice {
+
+    @ResponseBody
+    @ExceptionHandler(EntityNotExistException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String entityNotExist2(EntityNotExistException ex) {
+        return ex.getMessage();
+    }
 
     @ResponseBody
     @ExceptionHandler(EntityNotFoundException.class)

@@ -1,8 +1,6 @@
 package com.kw.nodeimageeditorbackend.project.dto;
 
 import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
-import com.kw.nodeimageeditorbackend.project.entities.ProjectTagEntity;
-import com.kw.nodeimageeditorbackend.project.requests.CreateNewProjectRequest;
 import com.kw.nodeimageeditorbackend.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;

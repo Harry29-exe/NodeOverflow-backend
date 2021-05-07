@@ -14,6 +14,7 @@ public class ProjectCollaboratorEntity {
 
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
