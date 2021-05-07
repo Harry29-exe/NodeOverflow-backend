@@ -11,9 +11,6 @@ public interface ProjectService {
 
 
     //    List<ProjectDetailsDto> getUserProjectsDetails2(Long userId);
-    List<ProjectDetailsDto> searchProjects(String searchPhrase);
-
-    List<ProjectDetailsDto> getUserProjectsDetails(Long userId);
 
     ProjectDto getProject(Long projectId, Long userId, boolean withProjectDetails);
 

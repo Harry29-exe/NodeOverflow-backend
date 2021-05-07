@@ -36,15 +36,6 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public List<ProjectDetailsDto> getUserProjectsDetails(Long userId) {
-        List<ProjectEntity> projectEntities = projectRepository.findAllByProjectOwnerId(userId);
-
-        return projectEntities.stream()
-                .map(ProjectDetailsDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public ProjectDto getProject(Long projectId, Long userId, boolean withProjectDetails) {
         var projectEntity = projectRepository.findById(projectId)
                 .orElseThrow(EntityNotExistException::new);
@@ -114,11 +105,6 @@ public class ProjectServiceRepository implements ProjectService {
     }
 
     @Override
-    public List<ProjectDetailsDto> searchProjects(String searchPhrase) {
-        return null;
-    }
-
-    @Override
     public void updateProjectDetails(ProjectDto projectDto, Long ownerId) {
 
     }
@@ -134,6 +120,7 @@ public class ProjectServiceRepository implements ProjectService {
 
         projectRepository.delete(projectEntity);
     }
+
 
     private boolean hasPermission(
             ProjectEntity projectEntity,

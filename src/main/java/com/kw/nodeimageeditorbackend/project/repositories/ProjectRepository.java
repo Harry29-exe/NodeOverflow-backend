@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     List<ProjectEntity> findByCollaboratorsContaining(ProjectCollaboratorEntity collaborator);
 
+    List<ProjectEntity> findAllByCreationDateBetweenAndLastModifiedBetween(Date beforeCreationDate, Date afterCreationDate, Date beforeLastModified, Date afterLastModified);
+
     Optional<ProjectEntity> findOneById(Long id);
-
-
 }
