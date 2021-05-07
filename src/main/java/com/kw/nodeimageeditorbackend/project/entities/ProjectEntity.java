@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "projects")
 public class ProjectEntity {
-
+    //TODO
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,7 @@ public class ProjectEntity {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
+    @PrimaryKeyJoinColumn
     private ProjectDataEntity projectData;
 
     @Enumerated(EnumType.STRING)

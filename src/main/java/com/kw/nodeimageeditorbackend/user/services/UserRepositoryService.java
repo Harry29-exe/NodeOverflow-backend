@@ -3,7 +3,9 @@ package com.kw.nodeimageeditorbackend.user.services;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
 import com.kw.nodeimageeditorbackend.exceptions.general.BadRequestException;
+import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.user.dto.UserDto;
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.entities.UserRoleEntity;
 import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
@@ -52,6 +54,12 @@ public class UserRepositoryService implements UserService {
         }
 
         return new ApplicationUserDetails(user.get());
+    }
+
+    @Override
+    public UserDto getUser(Long id) {
+        return new UserDto(userRepository.findById(id)
+                .orElseThrow(EntityNotExistException::new));
     }
 
     @Override

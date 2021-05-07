@@ -20,6 +20,7 @@ public class ProjectDataEntity {
     private String projectData;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
 }

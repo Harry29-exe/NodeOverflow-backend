@@ -15,12 +15,11 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     @Query(value = "SELECT p FROM ProjectEntity p JOIN ProjectCollaboratorEntity c ON (c.id = :collaboratorId)")
     List<ProjectEntity> findAllByCollaboratorId(Long collaboratorId);
 
-//    List<ProjectEntity> findAllByProjectOwner(UserEntity projectOwner);
-
     List<ProjectEntity> findAllByProjectOwnerId(Long id);
 
     List<ProjectEntity> findByCollaboratorsContaining(ProjectCollaboratorEntity collaborator);
 
     Optional<ProjectEntity> findOneById(Long id);
+
 
 }

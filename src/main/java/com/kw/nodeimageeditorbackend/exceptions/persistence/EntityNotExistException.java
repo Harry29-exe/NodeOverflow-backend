@@ -5,13 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class EntityDoesNotExist extends ApplicationException {
+public class EntityNotExistException extends ApplicationException {
 
-    public EntityDoesNotExist() {
+    public EntityNotExistException() {
         super("Requested entity doesn't exist.");
     }
 
-    public EntityDoesNotExist(String message) {
+    public EntityNotExistException(String message) {
         super(message);
     }
 }
