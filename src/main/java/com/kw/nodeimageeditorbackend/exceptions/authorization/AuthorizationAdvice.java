@@ -1,7 +1,5 @@
 package com.kw.nodeimageeditorbackend.exceptions.authorization;
 
-import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
-import com.kw.nodeimageeditorbackend.exceptions.authorization.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

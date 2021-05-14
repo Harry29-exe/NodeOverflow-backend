@@ -2,7 +2,6 @@ package com.kw.nodeimageeditorbackend.project.services;
 
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
-import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.project.dto.ProjectDto;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectCollaboratorEntity;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectDataEntity;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.kw.nodeimageeditorbackend.project.entities.AccessModifier.PROTECTED;
 import static com.kw.nodeimageeditorbackend.project.entities.AccessModifier.PUBLIC;

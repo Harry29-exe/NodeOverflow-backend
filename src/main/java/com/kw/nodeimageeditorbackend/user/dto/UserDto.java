@@ -4,7 +4,6 @@ import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-//TODO ask about microservices
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserDto {

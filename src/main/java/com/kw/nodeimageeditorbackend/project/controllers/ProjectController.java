@@ -20,8 +20,6 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    //TODO ask var
-    //TODO security layer
     @GetMapping("project")
     public ProjectDto getProject(
             @RequestParam Long projectId,

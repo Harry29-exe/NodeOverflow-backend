@@ -37,7 +37,6 @@ public class ProjectDto {
                     .map(ProjectCollaboratorDto::new).collect(Collectors.toList());
         } else {
             this.projectData = "";
-            //TODO ma sens?
             this.collaborators = new LinkedList<>();
         }
     }

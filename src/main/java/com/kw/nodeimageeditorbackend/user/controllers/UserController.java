@@ -31,7 +31,6 @@ public class UserController {
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
 
-    //TODO
     @PostMapping("/token-refresh")
     public void refresh(@CookieValue(value = "token") String refreshToken,
                         @RequestHeader String authentication) {

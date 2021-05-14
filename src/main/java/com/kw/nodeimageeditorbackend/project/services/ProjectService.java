@@ -1,11 +1,8 @@
 package com.kw.nodeimageeditorbackend.project.services;
 
-import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsDto;
 import com.kw.nodeimageeditorbackend.project.dto.ProjectDto;
 import com.kw.nodeimageeditorbackend.project.requests.CreateNewProjectRequest;
 import com.kw.nodeimageeditorbackend.project.requests.SaveProjectRequest;
-
-import java.util.List;
 
 public interface ProjectService {
 

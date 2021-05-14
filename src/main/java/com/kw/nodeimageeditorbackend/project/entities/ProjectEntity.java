@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "projects")
 public class ProjectEntity {
-    //TODO
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
