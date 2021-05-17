@@ -8,10 +8,12 @@ import java.util.stream.Collectors;
 
 @Data
 public class ProjectDetailsDto {
+    private Long id;
     private ProjectMetadataDto metadata;
     private List<ProjectCollaboratorDto> collaborators;
 
     public ProjectDetailsDto(ProjectEntity entity) {
+        this.id = entity.getId();
         this.metadata = new ProjectMetadataDto(entity);
         this.collaborators = getCollaborators(entity);
     }
