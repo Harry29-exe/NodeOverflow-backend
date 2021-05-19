@@ -27,14 +27,17 @@ public class UserController {
     @PostMapping("/login")
     public void login(@RequestBody @Valid AuthenticationRequest request, HttpServletResponse response) {
         String token = loginService.createAuthenticationToken(request);
+        String refreshToken = loginService.createRefreshToken(request);
         response.addHeader("Authorization", "Bearer " + token);
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
+        response.addHeader("Set-Cookie", "token=" + refreshToken);
     }
 
-    @PostMapping("/token-refresh")
-    public void refresh(@CookieValue(value = "token") String refreshToken,
-                        @RequestHeader String authentication) {
-
+    @GetMapping("/token-refresh")
+    public void refresh(@CookieValue(value = "token") String refreshToken, HttpServletResponse response) {
+        String refreshedToken = loginService.refreshToken(refreshToken);
+        response.addHeader("Authorization", "Bearer " + refreshedToken);
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
 
     @PostMapping("/register")

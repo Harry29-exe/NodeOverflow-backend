@@ -2,6 +2,8 @@ package com.kw.nodeimageeditorbackend.user.services;
 
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import com.kw.nodeimageeditorbackend.user.requests.AuthenticationRequest;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +18,16 @@ import java.util.HashMap;
 
 @Service
 public class JwtLoginService implements LoginService {
-
     private final Key jwtKey;
+    private final Key jwtRefreshKey;
     private final AuthenticationManager authenticationManager;
 
-    public JwtLoginService(@Value("${jwt.key}") String jwtSecret, AuthenticationManager authenticationManager) {
+    public JwtLoginService(@Value("${jwt.key}") String jwtSecret,
+                           @Value("${jwt.refresh.key}") String jwtRefreshSecret,
+                           AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
         jwtKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        jwtRefreshKey = Keys.hmacShaKeyFor(jwtRefreshSecret.getBytes());
     }
 
     @Override
@@ -34,10 +39,38 @@ public class JwtLoginService implements LoginService {
 
         Authentication auth = authenticationManager.authenticate(authentication);
 
-        return createJwtToken(auth);
+        return createJwtToken(auth, jwtKey);
     }
 
-    private String createJwtToken(Authentication authentication) {
+    @Override
+    public String createRefreshToken(AuthenticationRequest request) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                request.getUsername(),
+                request.getPassword()
+        );
+
+        Authentication auth = authenticationManager.authenticate(authentication);
+
+        return createJwtToken(auth, jwtRefreshKey);
+    }
+
+    @Override
+    public String refreshToken(String refreshToken) {
+        Jws<Claims> claimsJws = Jwts
+                .parserBuilder()
+                .setSigningKey(jwtRefreshKey)
+                .build()
+                .parseClaimsJws(refreshToken);
+
+        return Jwts.builder()
+                .setClaims(claimsJws.getBody())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 30))
+                .signWith(jwtKey)
+                .compact();
+    }
+
+    private String createJwtToken(Authentication authentication, Key jwtKey) {
         System.out.println(authentication.getClass());
         ApplicationUserDetails user = (ApplicationUserDetails) authentication.getPrincipal();
         HashMap<String, String> claims = new HashMap<>();
