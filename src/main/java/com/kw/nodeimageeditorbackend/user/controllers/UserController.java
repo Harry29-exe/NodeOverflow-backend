@@ -24,20 +24,20 @@ public class UserController {
         this.loginService = loginService;
     }
 
+    @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", exposedHeaders = {"Authorization"})
     @PostMapping("/login")
     public void login(@RequestBody @Valid AuthenticationRequest request, HttpServletResponse response) {
         String token = loginService.createAuthenticationToken(request);
         String refreshToken = loginService.createRefreshToken(request);
         response.addHeader("Authorization", "Bearer " + token);
-        response.addHeader("Access-Control-Expose-Headers", "Authorization");
-        response.addHeader("Set-Cookie", "token=" + refreshToken);
+        response.addHeader("Set-Cookie", "token=" + refreshToken + "; Max-Age=7200; Path=/");
     }
 
+    @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", exposedHeaders = {"Authorization"})
     @GetMapping("/token-refresh")
     public void refresh(@CookieValue(value = "token") String refreshToken, HttpServletResponse response) {
         String refreshedToken = loginService.refreshToken(refreshToken);
         response.addHeader("Authorization", "Bearer " + refreshedToken);
-        response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
 
     @PostMapping("/register")
