@@ -1,5 +1,6 @@
 package com.kw.nodeimageeditorbackend.project.controllers;
 
+import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsList;
 import com.kw.nodeimageeditorbackend.project.requests.GetFilteredProjectDetailsRequest;
 import com.kw.nodeimageeditorbackend.project.responses.GetProjectsResponse;
 import com.kw.nodeimageeditorbackend.project.services.ProjectDetailsService;
@@ -26,24 +27,39 @@ public class ProjectDetailsController {
 
     @GetMapping("projects/details")
     @ResponseStatus(HttpStatus.OK)
-    public GetProjectsResponse getProjects(@RequestParam(defaultValue = "false") Boolean findCollaborationProjects) {
+    public ProjectDetailsList getProjects(
+            @RequestParam(defaultValue = "10") Integer resultsPerPage,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "false") Boolean findCollaborationProjects
+    ) {
         ApplicationUserDetails userDetails = (ApplicationUserDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        var projects = projectDetailsService.getUserProjectsDetails(userDetails.getId(), findCollaborationProjects);
 
-        return new GetProjectsResponse(projects);
+        return projectDetailsService
+                .getUserProjectsDetails(
+                        userDetails.getId(),
+                        page,
+                        resultsPerPage,
+                        findCollaborationProjects);
     }
 
     @PostMapping("projects/details")
     @ResponseStatus(HttpStatus.OK)
-    public GetProjectsResponse filterAndGetProjects(
+    public ProjectDetailsList filterAndGetProjects(
             @RequestBody @Valid GetFilteredProjectDetailsRequest request,
+            @RequestParam(defaultValue = "10") Integer resultsPerPage,
+            @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "false") Boolean findCollaborationProjects,
-            Authentication authentication) {
+            Authentication authentication
+    ) {
         var userDetails = (ApplicationUserDetails) authentication.getPrincipal();
-        var projects = projectDetailsService.searchProjects(request, userDetails.getId(), findCollaborationProjects);
 
-        return new GetProjectsResponse(projects);
+        return projectDetailsService
+                .searchProjects(
+                        request,
+                        userDetails.getId(),
+                        page, resultsPerPage,
+                        findCollaborationProjects);
     }
 
     @PatchMapping("project/details")

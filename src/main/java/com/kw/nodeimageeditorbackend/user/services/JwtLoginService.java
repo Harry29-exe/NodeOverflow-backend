@@ -65,7 +65,7 @@ public class JwtLoginService implements LoginService {
         return Jwts.builder()
                 .setClaims(claimsJws.getBody())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 30))
+                .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 60 * 48))
                 .signWith(jwtKey)
                 .compact();
     }
