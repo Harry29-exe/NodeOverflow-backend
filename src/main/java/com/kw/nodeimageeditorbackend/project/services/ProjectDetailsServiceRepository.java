@@ -96,7 +96,7 @@ public class ProjectDetailsServiceRepository implements ProjectDetailsService {
                    allResultsCount, resultsFrom);
        } else if (resultsFrom < projects.size()) {
            return new ProjectDetailsList(
-                   projects.subList(resultsFrom, projects.size() + 1),
+                   projects.subList(resultsFrom, projects.size()),
                    allResultsCount, resultsFrom);
        }
 
