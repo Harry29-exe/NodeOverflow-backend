@@ -13,7 +13,7 @@ public class AuthorizationAdvice {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public String badCredentials(BadCredentialsException ex) {
-        return ex.getMessage();
+        return "Not found user with such credentials";
     }
 
     @ResponseBody
@@ -22,4 +22,6 @@ public class AuthorizationAdvice {
     public String authenticationFail(UserNotFoundException ex) {
         return ex.getMessage();
     }
+
+
 }

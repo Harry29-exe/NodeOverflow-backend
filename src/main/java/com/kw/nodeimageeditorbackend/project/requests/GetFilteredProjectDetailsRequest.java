@@ -3,11 +3,12 @@ package com.kw.nodeimageeditorbackend.project.requests;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 public class GetFilteredProjectDetailsRequest {
-    @NotEmpty
+    @NotNull
     private String searchPhrase;
     private Date createBefore;
     private Date createdAfter;

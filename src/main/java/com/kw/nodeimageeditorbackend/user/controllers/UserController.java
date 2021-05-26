@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import static com.kw.nodeimageeditorbackend.configuration.CorsAddresses.FRONT_END;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -24,7 +26,7 @@ public class UserController {
         this.loginService = loginService;
     }
 
-    @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", exposedHeaders = {"Authorization"})
+    @CrossOrigin(value = FRONT_END, allowCredentials = "true", exposedHeaders = {"Authorization"})
     @PostMapping("/login")
     public void login(@RequestBody @Valid AuthenticationRequest request, HttpServletResponse response) {
         String token = loginService.createAuthenticationToken(request);
@@ -33,10 +35,10 @@ public class UserController {
         response.addHeader("Set-Cookie", "token=" + refreshToken + "; Max-Age=7200; Path=/");
     }
 
-    @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", exposedHeaders = {"Authorization"})
+    @CrossOrigin(value = "FRONT_END", allowCredentials = "true", exposedHeaders = {"Authorization"})
     @GetMapping("/token-refresh")
     public void refresh(@CookieValue(value = "token") String refreshToken, HttpServletResponse response) {
-        String refreshedToken = loginService.refreshToken(refreshToken);
+        String refreshedToken = loginService.refreshAuthorizationToken(refreshToken);
         response.addHeader("Authorization", "Bearer " + refreshedToken);
     }
 

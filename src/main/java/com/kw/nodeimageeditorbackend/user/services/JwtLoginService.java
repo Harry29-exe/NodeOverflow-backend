@@ -1,5 +1,6 @@
 package com.kw.nodeimageeditorbackend.user.services;
 
+import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
 import com.kw.nodeimageeditorbackend.user.requests.AuthenticationRequest;
 import io.jsonwebtoken.Claims;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -37,7 +39,12 @@ public class JwtLoginService implements LoginService {
                 request.getPassword()
         );
 
-        Authentication auth = authenticationManager.authenticate(authentication);
+        Authentication auth;
+        try {
+            auth = authenticationManager.authenticate(authentication);
+        } catch (AuthenticationException exception) {
+            throw new BadCredentialsException("");
+        }
 
         return createJwtToken(auth, jwtKey);
     }
@@ -55,7 +62,7 @@ public class JwtLoginService implements LoginService {
     }
 
     @Override
-    public String refreshToken(String refreshToken) {
+    public String refreshAuthorizationToken(String refreshToken) {
         Jws<Claims> claimsJws = Jwts
                 .parserBuilder()
                 .setSigningKey(jwtRefreshKey)

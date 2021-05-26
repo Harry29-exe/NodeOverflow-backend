@@ -7,5 +7,5 @@ public interface LoginService {
 
     String createRefreshToken(AuthenticationRequest request);
 
-    String refreshToken(String refreshToken);
+    String refreshAuthorizationToken(String refreshToken);
 }
