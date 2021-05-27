@@ -10,6 +10,7 @@ import com.kw.nodeimageeditorbackend.project.services.ProjectServiceImp;
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
 import com.kw.nodeimageeditorbackend.utils.sampleListCreators.UserListCreator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,15 +40,23 @@ public abstract class ProjectServiceImpTest {
     @InjectMocks
     protected ProjectServiceImp projectServiceImp;
 
-    PasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final List<String> passwords = new ArrayList<>(3);
+
+
+    public ProjectServiceImpTest() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
+        passwords.add(encoder.encode("pass"));
+        passwords.add(encoder.encode("123"));
+        passwords.add(encoder.encode("321"));
+    }
 
     @BeforeEach
     public void initEach() {
         var id = 1L;
         users = Arrays.asList(
-                new UserEntity(id++, "bob", "bob@da", encoder.encode("pass"), null)
-                ,new UserEntity(id++, "steve", "stevens@o2.de", encoder.encode("123"), null)
-                ,new UserEntity(id++, "alex2", "al@we", encoder.encode("321"), null)
+                new UserEntity(id++, "bob", "bob@da", passwords.get(0), null)
+                ,new UserEntity(id++, "steve", "stevens@o2.de", passwords.get(1), null)
+                ,new UserEntity(id++, "alex2", "al@we", passwords.get(2), null)
         );
     }
 

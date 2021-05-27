@@ -15,6 +15,7 @@ public interface ProjectService {
 
     void saveProjectData(SaveProjectRequest request, Long ownerId);
 
+    //TODO
     void updateProjectDetails(ProjectDto projectDto, Long ownerId);
 
     void deleteProject(Long projectId, Long ownerId);
