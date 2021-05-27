@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.controlers;
+package com.kw.nodeimageeditorbackend.integration.controlers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

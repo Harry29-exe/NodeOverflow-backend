@@ -29,6 +29,7 @@ public class ProjectDto {
     }
 
     public ProjectDto(ProjectEntity entity, boolean readAllData) {
+        this.projectId = entity.getId();
         this.projectDetails = new ProjectMetadataDto(entity, readAllData);
         this.owner = new UserDto(entity.getProjectOwner());
         if (readAllData) {

@@ -1,4 +1,4 @@
-package com.kw.nodeimageeditorbackend.user.controllers;
+package com.kw.nodeimageeditorbackend.integration.user.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class serControllerTest {
 
     @Autowired
     MockMvc mockMvc;

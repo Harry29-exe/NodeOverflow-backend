@@ -1,6 +1,7 @@
 package com.kw.nodeimageeditorbackend.project.entities;
 
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "projects")
 public class ProjectEntity {

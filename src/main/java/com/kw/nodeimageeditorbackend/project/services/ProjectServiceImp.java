@@ -24,11 +24,11 @@ import static com.kw.nodeimageeditorbackend.project.entities.AccessModifier.PUBL
 import static com.kw.nodeimageeditorbackend.project.enums.ProjectPermission.*;
 
 @Service
-public class ProjectServiceRepository implements ProjectService {
+public class ProjectServiceImp implements ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-    public ProjectServiceRepository(ProjectRepository projectRepository, UserRepository userRepository) {
+    public ProjectServiceImp(ProjectRepository projectRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
     }
@@ -90,7 +90,7 @@ public class ProjectServiceRepository implements ProjectService {
 
     @Override
     public void saveProjectData(SaveProjectRequest request, Long ownerId) {
-        var projectToModify = projectRepository.findOneById(request.getProjectId())
+        var projectToModify = projectRepository.findById(request.getProjectId())
                 .orElseThrow(EntityNotExistException::new);
         if (!hasPermission(projectToModify, ownerId, WRITE)) {
             throw new AuthorizationException();
@@ -109,7 +109,7 @@ public class ProjectServiceRepository implements ProjectService {
 
     @Override
     public void deleteProject(Long projectId, Long ownerId) {
-        var projectEntity = projectRepository.findOneById(projectId)
+        var projectEntity = projectRepository.findById(projectId)
                 .orElseThrow(EntityNotExistException::new);
 
         if (!projectEntity.getProjectOwner().getId().equals(ownerId)) {

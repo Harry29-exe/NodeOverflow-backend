@@ -35,6 +35,4 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     List<ProjectEntity> findAllByCollaboratorsContainingAndCreationDateBetweenAndLastModifiedBetween(ProjectCollaboratorEntity collaborator, Date afterCreationDate, Date beforeCreationDate, Date afterLastModified, Date beforeLastModified, Pageable pageable);
 
     List<ProjectEntity> findAllByCollaboratorsContainingAndCreationDateBetweenAndLastModifiedBetween(ProjectCollaboratorEntity collaborator, Date afterCreationDate, Date beforeCreationDate, Date afterLastModified, Date beforeLastModified);
-
-    Optional<ProjectEntity> findOneById(Long id);
 }

@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class ProjectDetailsServiceRepository implements ProjectDetailsService {
+public class ProjectDetailsServiceImp implements ProjectDetailsService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-    public ProjectDetailsServiceRepository(ProjectRepository projectRepository, UserRepository userRepository) {
+    public ProjectDetailsServiceImp(ProjectRepository projectRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
     }
