@@ -4,6 +4,7 @@ import com.kw.nodeimageeditorbackend.project.entities.AccessModifier;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectTagEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@EqualsAndHashCode
 public class ProjectMetadataDto {
     private String title;
     private Date creationDate;

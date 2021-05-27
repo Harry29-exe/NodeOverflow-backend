@@ -4,6 +4,7 @@ import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
 import com.kw.nodeimageeditorbackend.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ProjectDto {
     private Long projectId;
     private String projectData;
