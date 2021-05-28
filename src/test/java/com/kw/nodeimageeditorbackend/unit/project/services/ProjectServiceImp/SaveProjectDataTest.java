@@ -6,12 +6,9 @@ import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
 import com.kw.nodeimageeditorbackend.project.requests.SaveProjectRequest;
 import com.kw.nodeimageeditorbackend.unit.project.services.ProjectServiceImpTest;
 import com.kw.nodeimageeditorbackend.utils.Box;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.kw.nodeimageeditorbackend.utils.builders.ProjectBuilder.builder;
@@ -87,6 +84,25 @@ public class SaveProjectDataTest extends ProjectServiceImpTest {
         assertThrows(AuthorizationException.class, () ->
                 //when
                 projectServiceImp.saveProjectData(sampleSaveRequest, users.get(2).getId())
+        );
+    }
+
+    @Test
+    public void should_throw_AuthorizationException2() throws Exception {
+        //given
+        var sampleProject = builder(users.get(0), "project")
+                .setData("data before modification")
+                .addCollaborator(users.get(1), false, false)
+                .build();
+        var sampleSaveRequest = new SaveProjectRequest(sampleProject.getId(), "new data");
+
+        doReturn(Optional.of(sampleProject)).when(projectRepository).findById(sampleProject.getId());
+
+
+        //then
+        assertThrows(AuthorizationException.class, () ->
+                //when
+                projectServiceImp.saveProjectData(sampleSaveRequest, users.get(1).getId())
         );
     }
 
