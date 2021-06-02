@@ -79,9 +79,10 @@ public class GetProjectTest extends ProjectServiceImpTest {
         var searchedProjectId = searchedProject.getId();
         doReturn(Optional.of(searchedProject)).when(projectRepository).findById(searchedProjectId);
 
-        //when
+        //then <- when
         //TODO convention break?
         assertThrows(AuthorizationException.class, () ->
+
                 projectServiceImp.getProject(searchedProjectId, users.get(0).getId() + 1, true)
         );
     }

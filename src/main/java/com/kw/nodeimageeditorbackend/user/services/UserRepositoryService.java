@@ -2,6 +2,7 @@ package com.kw.nodeimageeditorbackend.user.services;
 
 import com.kw.nodeimageeditorbackend.exceptions.authorization.AuthorizationException;
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
+import com.kw.nodeimageeditorbackend.exceptions.authorization.UserNotFoundException;
 import com.kw.nodeimageeditorbackend.exceptions.general.BadRequestException;
 import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
@@ -95,7 +96,7 @@ public class UserRepositoryService implements UserService {
         }
 
         if (userEntity.isEmpty()) {
-            throw new EntityNotFoundException();
+            throw new UserNotFoundException("No user with such name");
         }
         UserEntity userToDelete = userEntity.get();
 
