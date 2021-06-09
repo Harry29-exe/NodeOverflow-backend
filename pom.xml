@@ -11,9 +11,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kw</groupId>
-    <artifactId>node-image-editor-backend</artifactId>
+    <artifactId>NodeOverflow-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>node-image-editor-backend</name>
+    <name>NodeOverflow-backend</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
