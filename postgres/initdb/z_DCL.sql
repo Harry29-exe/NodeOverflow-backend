@@ -1,0 +1,16 @@
+CREATE USER Backend
+    NOSUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    LOGIN
+    PASSWORD 'very_strong_password'
+    ;
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+    ON ALL TABLES IN SCHEMA public
+    TO Backend;
+
+GRANT USAGE, SELECT 
+    ON ALL SEQUENCES IN SCHEMA public 
+    TO Backend;

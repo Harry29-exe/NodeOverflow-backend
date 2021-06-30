@@ -46,6 +46,7 @@ public class UserController {
         response.addHeader("Authorization", "Bearer " + refreshedToken);
     }
 
+    @CrossOrigin(value = {FRONTEND_DEV, FRONTEND_PROD}, allowCredentials = "true", exposedHeaders = {"Authorization"})
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody @Valid CreateUserRequest request) {

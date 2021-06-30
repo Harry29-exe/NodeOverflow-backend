@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+  postgres:
+    build:
+      context: ./postgres
+    image: postgres_image
+    container_name: postgres_contaier
+    ports:
+      - "5432:5432"
+    env_file: ./postgres/.env
+  backend:
+    build:
+      context: ./
+    ports:
+      - "8880:8080"
+    depends_on:
+      - postgres
+
+#  frontend:
+#    build:
+#      context: front-end
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - backend
