@@ -74,7 +74,7 @@ public class ProjectDetailsServiceImp implements ProjectDetailsService {
                         request.getCreatedAfter(), request.getModifiedBefore(),
                         request.getModifiedAfter(), request.getModifiedBefore());
 
-        if(findCollaborationProjects) {
+        if (findCollaborationProjects) {
             userProjectEntities.addAll(projectRepository
                     .findAllByCollaboratorsContainingAndCreationDateBetweenAndLastModifiedBetween(
                             userAsCollaborator,
@@ -88,19 +88,19 @@ public class ProjectDetailsServiceImp implements ProjectDetailsService {
                 .collect(Collectors.toList());
         Integer allResultsCount = projects.size();
 
-       projects = this.filterProjects(projects, request.getSearchPhrase());
-       int resultsFrom = pageIndex * resultPerPage;
-       if( resultsFrom + resultPerPage <= projects.size()) {
-           return new ProjectDetailsList(
-                   projects.subList(resultsFrom, resultsFrom + resultPerPage),
-                   allResultsCount, resultsFrom);
-       } else if (resultsFrom < projects.size()) {
-           return new ProjectDetailsList(
-                   projects.subList(resultsFrom, projects.size()),
-                   allResultsCount, resultsFrom);
-       }
+        projects = this.filterProjects(projects, request.getSearchPhrase());
+        int resultsFrom = pageIndex * resultPerPage;
+        if (resultsFrom + resultPerPage <= projects.size()) {
+            return new ProjectDetailsList(
+                    projects.subList(resultsFrom, resultsFrom + resultPerPage),
+                    allResultsCount, resultsFrom);
+        } else if (resultsFrom < projects.size()) {
+            return new ProjectDetailsList(
+                    projects.subList(resultsFrom, projects.size()),
+                    allResultsCount, resultsFrom);
+        }
 
-       return new ProjectDetailsList(new LinkedList<>(), allResultsCount, resultsFrom);
+        return new ProjectDetailsList(new LinkedList<>(), allResultsCount, resultsFrom);
     }
 
     private List<ProjectDetailsDto> filterProjects(

@@ -2,7 +2,6 @@ package com.kw.nodeimageeditorbackend.project.controllers;
 
 import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsList;
 import com.kw.nodeimageeditorbackend.project.requests.GetFilteredProjectDetailsRequest;
-import com.kw.nodeimageeditorbackend.project.responses.GetProjectsResponse;
 import com.kw.nodeimageeditorbackend.project.services.ProjectDetailsService;
 import com.kw.nodeimageeditorbackend.project.services.ProjectService;
 import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;

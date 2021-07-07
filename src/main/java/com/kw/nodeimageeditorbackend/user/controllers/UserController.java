@@ -6,17 +6,14 @@ import com.kw.nodeimageeditorbackend.user.requests.DeleteUserRequest;
 import com.kw.nodeimageeditorbackend.user.requests.UpdateUserDetailsRequest;
 import com.kw.nodeimageeditorbackend.user.services.LoginService;
 import com.kw.nodeimageeditorbackend.user.services.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import static com.kw.nodeimageeditorbackend.configuration.CorsAddresses.*;
+import static com.kw.nodeimageeditorbackend.configuration.CorsAddresses.FRONTEND_DEV;
+import static com.kw.nodeimageeditorbackend.configuration.CorsAddresses.FRONTEND_PROD;
 
 @CrossOrigin
 @RestController

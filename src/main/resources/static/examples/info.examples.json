@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Introduction",
+    "sections": [
+      "Introduction",
+      "Adding nodes"
+    ]
+  },
+
+  {
+    "name": "Basic filters",
+    "sections": [
+      "Contrast",
+      "Cap"
+    ]
+  },
+
+  {
+    "name": "Advanced filters",
+    "sections": [
+      "Introduction",
+      "Adding nodes"
+    ]
+  }
+]

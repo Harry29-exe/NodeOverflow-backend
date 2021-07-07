@@ -4,7 +4,7 @@ services:
     build:
       context: ./
     image: postgres_image
-    container_name: postgres_contaier
+    container_name: postgres_db
     ports:
       - "5432:5432"
     env_file: ./.env
