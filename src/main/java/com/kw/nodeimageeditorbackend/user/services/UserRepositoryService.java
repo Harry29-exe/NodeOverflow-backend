@@ -5,7 +5,7 @@ import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsExce
 import com.kw.nodeimageeditorbackend.exceptions.authorization.UserNotFoundException;
 import com.kw.nodeimageeditorbackend.exceptions.general.BadRequestException;
 import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
-import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.security.user.ApplicationUser;
 import com.kw.nodeimageeditorbackend.user.dto.UserDto;
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.entities.UserRoleEntity;
@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
 
-import static com.kw.nodeimageeditorbackend.security.UserRole.USER;
+import static com.kw.nodeimageeditorbackend.security.user.UserRole.USER;
 
 @Service
 public class UserRepositoryService implements UserService {
@@ -53,7 +53,7 @@ public class UserRepositoryService implements UserService {
             throw new UsernameNotFoundException("Username not found");
         }
 
-        return new ApplicationUserDetails(user.get());
+        return new ApplicationUser(user.get());
     }
 
     @Override
@@ -108,7 +108,7 @@ public class UserRepositoryService implements UserService {
 
     @Override
     public void updateUser(UpdateUserDetailsRequest updateRequest) {
-        ApplicationUserDetails user = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ApplicationUser user = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserEntity userEntity = userRepository.findById(updateRequest.getId()).orElseThrow();
 
         boolean matches;

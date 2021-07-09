@@ -3,6 +3,8 @@ package com.kw.nodeimageeditorbackend.unit.project.services.ProjectServiceImp;
 import com.kw.nodeimageeditorbackend.project.entities.AccessModifier;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
 import com.kw.nodeimageeditorbackend.project.requests.CreateNewProjectRequest;
+import com.kw.nodeimageeditorbackend.security.user.AppAuthentication;
+import com.kw.nodeimageeditorbackend.security.user.ApplicationUser;
 import com.kw.nodeimageeditorbackend.unit.project.services.ProjectServiceImpTest;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +31,7 @@ public class CreateProjectTest extends ProjectServiceImpTest {
         }).when(projectRepository).save(isA(ProjectEntity.class));
 
         //when
-        projectServiceImp.createProject(request, 0L);
+        projectServiceImp.createProject(request, new AppAuthentication(new ApplicationUser(0L, null, null,null)));
 
         //then
         var project = savedProject.get(0);

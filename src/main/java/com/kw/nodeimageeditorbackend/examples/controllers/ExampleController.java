@@ -2,9 +2,7 @@ package com.kw.nodeimageeditorbackend.examples.controllers;
 
 import com.kw.nodeimageeditorbackend.examples.controllers.Requests.CreateExampleRequest;
 import com.kw.nodeimageeditorbackend.examples.dto.ExampleDto;
-import com.kw.nodeimageeditorbackend.examples.repositories.ExampleRepository;
 import com.kw.nodeimageeditorbackend.examples.services.ExampleService;
-import com.kw.nodeimageeditorbackend.project.repositories.ProjectRepository;
 import com.kw.nodeimageeditorbackend.project.services.ProjectService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +13,8 @@ import javax.validation.Valid;
 @CrossOrigin
 public class ExampleController {
 
-    private ExampleService exampleService;
-    private ProjectService projectService;
+    private final ExampleService exampleService;
+    private final ProjectService projectService;
 
     public ExampleController(ExampleService exampleService, ProjectService projectService) {
         this.exampleService = exampleService;

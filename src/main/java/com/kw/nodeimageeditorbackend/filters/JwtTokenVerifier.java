@@ -1,11 +1,13 @@
 package com.kw.nodeimageeditorbackend.filters;
 
-import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.exceptions.persistence.EntityNotExistException;
+import com.kw.nodeimageeditorbackend.security.user.AppAuthentication;
+import com.kw.nodeimageeditorbackend.security.user.ApplicationUser;
+import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,10 +26,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JwtTokenVerifier extends OncePerRequestFilter {
+    private final UserRepository userRepository;
     private final String tokenPrefix = "Bearer ";
     private final Key key;
 
-    public JwtTokenVerifier(Key key) {
+    public JwtTokenVerifier(UserRepository userRepository, Key key) {
+        this.userRepository = userRepository;
         this.key = key;
     }
 
@@ -59,12 +63,12 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                     .collect(Collectors.toSet());
 
             Long id = Long.parseLong((String) body.get("id"));
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    new ApplicationUserDetails(
-                            id, (String) body.get("sub"), (String) body.get("email"), null),
-                    null,
-                    simpleGrantedAuthorities
-            );
+
+            var user = userRepository.findById(id);
+            Authentication authentication = new AppAuthentication(
+                    new ApplicationUser(
+                            user.orElseThrow(EntityNotExistException::new)
+                    ));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

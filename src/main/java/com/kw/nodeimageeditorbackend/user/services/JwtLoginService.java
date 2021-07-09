@@ -1,7 +1,7 @@
 package com.kw.nodeimageeditorbackend.user.services;
 
 import com.kw.nodeimageeditorbackend.exceptions.authorization.BadCredentialsException;
-import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.security.user.ApplicationUser;
 import com.kw.nodeimageeditorbackend.user.requests.AuthenticationRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -79,15 +79,13 @@ public class JwtLoginService implements LoginService {
 
     private String createJwtToken(Authentication authentication, Key jwtKey) {
         System.out.println(authentication.getClass());
-        ApplicationUserDetails user = (ApplicationUserDetails) authentication.getPrincipal();
+        ApplicationUser user = (ApplicationUser) authentication.getPrincipal();
         HashMap<String, String> claims = new HashMap<>();
-        claims.put("email", user.getEmail());
         claims.put("sub", user.getUsername());
         claims.put("id", user.getId().toString());
 
         return Jwts.builder()
                 .setClaims(claims)
-                .claim("authorities", authentication.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 1_000 * 60 * 30))
                 .signWith(jwtKey)

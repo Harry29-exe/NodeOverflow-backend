@@ -1,6 +1,6 @@
 package com.kw.nodeimageeditorbackend.user.entities;
 
-import com.kw.nodeimageeditorbackend.security.UserRole;
+import com.kw.nodeimageeditorbackend.security.user.UserRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

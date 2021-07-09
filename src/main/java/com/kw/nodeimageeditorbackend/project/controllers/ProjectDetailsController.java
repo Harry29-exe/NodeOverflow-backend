@@ -4,10 +4,9 @@ import com.kw.nodeimageeditorbackend.project.dto.ProjectDetailsList;
 import com.kw.nodeimageeditorbackend.project.requests.GetFilteredProjectDetailsRequest;
 import com.kw.nodeimageeditorbackend.project.services.ProjectDetailsService;
 import com.kw.nodeimageeditorbackend.project.services.ProjectService;
-import com.kw.nodeimageeditorbackend.security.ApplicationUserDetails;
+import com.kw.nodeimageeditorbackend.security.user.AppAuthentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,14 +28,14 @@ public class ProjectDetailsController {
     public ProjectDetailsList getProjects(
             @RequestParam(defaultValue = "10") Integer resultsPerPage,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "false") Boolean findCollaborationProjects
+            @RequestParam(defaultValue = "false") Boolean findCollaborationProjects,
+            Authentication authentication
     ) {
-        ApplicationUserDetails userDetails = (ApplicationUserDetails)
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var auth = (AppAuthentication) authentication;
 
         return projectDetailsService
                 .getUserProjectsDetails(
-                        userDetails.getId(),
+                        auth,
                         page,
                         resultsPerPage,
                         findCollaborationProjects);
@@ -51,12 +50,12 @@ public class ProjectDetailsController {
             @RequestParam(defaultValue = "false") Boolean findCollaborationProjects,
             Authentication authentication
     ) {
-        var userDetails = (ApplicationUserDetails) authentication.getPrincipal();
+        var auth = (AppAuthentication) authentication;
 
         return projectDetailsService
                 .searchProjects(
+                        auth,
                         request,
-                        userDetails.getId(),
                         page, resultsPerPage,
                         findCollaborationProjects);
     }

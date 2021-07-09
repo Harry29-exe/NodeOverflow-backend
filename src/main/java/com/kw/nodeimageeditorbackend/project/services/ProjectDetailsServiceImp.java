@@ -6,6 +6,7 @@ import com.kw.nodeimageeditorbackend.project.entities.ProjectCollaboratorEntity;
 import com.kw.nodeimageeditorbackend.project.entities.ProjectEntity;
 import com.kw.nodeimageeditorbackend.project.repositories.ProjectRepository;
 import com.kw.nodeimageeditorbackend.project.requests.GetFilteredProjectDetailsRequest;
+import com.kw.nodeimageeditorbackend.security.user.AppAuthentication;
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class ProjectDetailsServiceImp implements ProjectDetailsService {
 
     @Override
     public ProjectDetailsList getUserProjectsDetails(
-            Long userId,
+            AppAuthentication authentication,
             Integer pageIndex,
             Integer resultPerPage,
             Boolean findCollaborationProjects
@@ -41,14 +42,14 @@ public class ProjectDetailsServiceImp implements ProjectDetailsService {
 
         if (findCollaborationProjects) {
             var userEntity = new UserEntity();
-            userEntity.setId(userId);
+            userEntity.setId(authentication.getPrincipal());
             var collaborator = new ProjectCollaboratorEntity();
             collaborator.setCollaborator(userEntity);
             usersProjects = projectRepository.findByProjectOwnerOrCollaboratorsContaining(userEntity, collaborator, pageable);
-            allResults = projectRepository.countAllByProjectOwnerIdOrCollaboratorsContaining(userId, collaborator);
+            allResults = projectRepository.countAllByProjectOwnerIdOrCollaboratorsContaining(authentication.getPrincipal(), collaborator);
         } else {
-            usersProjects = projectRepository.findAllByProjectOwnerId(userId, pageable);
-            allResults = projectRepository.countAllByProjectOwnerId(userId);
+            usersProjects = projectRepository.findAllByProjectOwnerId(authentication.getPrincipal(), pageable);
+            allResults = projectRepository.countAllByProjectOwnerId(authentication.getPrincipal());
         }
 
         return new ProjectDetailsList(usersProjects.stream()
@@ -58,19 +59,20 @@ public class ProjectDetailsServiceImp implements ProjectDetailsService {
 
     @Override
     public ProjectDetailsList searchProjects(
+            AppAuthentication authentication,
             GetFilteredProjectDetailsRequest request,
-            Long userId, Integer pageIndex, Integer resultPerPage,
+            Integer pageIndex, Integer resultPerPage,
             Boolean findCollaborationProjects
     ) {
 
         var userAsOwner = new UserEntity();
-        userAsOwner.setId(userId);
+        userAsOwner.setId(authentication.getPrincipal());
         var userAsCollaborator = new ProjectCollaboratorEntity();
         userAsCollaborator.setCollaborator(userAsOwner);
 
         List<ProjectEntity> userProjectEntities = projectRepository
                 .findAllByProjectOwnerIdAndCreationDateBetweenAndLastModifiedBetween(
-                        userId,
+                        authentication.getPrincipal(),
                         request.getCreatedAfter(), request.getModifiedBefore(),
                         request.getModifiedAfter(), request.getModifiedBefore());
 

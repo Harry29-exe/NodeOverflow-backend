@@ -11,6 +11,7 @@ import com.kw.nodeimageeditorbackend.project.enums.ProjectPermission;
 import com.kw.nodeimageeditorbackend.project.repositories.ProjectRepository;
 import com.kw.nodeimageeditorbackend.project.requests.CreateNewProjectRequest;
 import com.kw.nodeimageeditorbackend.project.requests.SaveProjectRequest;
+import com.kw.nodeimageeditorbackend.security.user.AppAuthentication;
 import com.kw.nodeimageeditorbackend.user.entities.UserEntity;
 import com.kw.nodeimageeditorbackend.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,12 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public ProjectDto getProject(Long projectId, Long userId, boolean withProjectDetails) {
+    public ProjectDto getProject(Long projectId, AppAuthentication authentication, boolean withProjectDetails) {
         var projectEntity = projectRepository.findById(projectId)
                 .orElseThrow(EntityNotExistException::new);
         var project = new ProjectDto(projectEntity, withProjectDetails);
 
-        if (!hasPermission(projectEntity, userId, READ)) {
+        if (!hasPermission(projectEntity, authentication.getPrincipal(), READ)) {
             throw new AuthorizationException("You do not have permission to read this project");
         }
 
@@ -47,7 +48,7 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public void createProject(CreateNewProjectRequest request, Long ownerId) {
+    public void createProject(CreateNewProjectRequest request, AppAuthentication authentication) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setTitle(request.getTitle());
         projectEntity.setCreationDate(new Date());
@@ -55,7 +56,7 @@ public class ProjectServiceImp implements ProjectService {
         projectEntity.setAccessModifier(request.getAccessModifier());
 
         UserEntity owner = new UserEntity();
-        owner.setId(ownerId);
+        owner.setId(authentication.getPrincipal());
         projectEntity.setProjectOwner(owner);
 
         ProjectDataEntity dataEntity = new ProjectDataEntity();
@@ -89,10 +90,10 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public void saveProjectData(SaveProjectRequest request, Long ownerId) {
+    public void saveProjectData(SaveProjectRequest request, AppAuthentication authentication) {
         var projectToModify = projectRepository.findById(request.getProjectId())
                 .orElseThrow(EntityNotExistException::new);
-        if (!hasPermission(projectToModify, ownerId, WRITE)) {
+        if (!hasPermission(projectToModify, authentication.getPrincipal(), WRITE)) {
             throw new AuthorizationException();
         }
 
@@ -103,16 +104,16 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public void updateProjectDetails(ProjectDto projectDto, Long ownerId) {
+    public void updateProjectDetails(ProjectDto projectDto, AppAuthentication authentication) {
 
     }
 
     @Override
-    public void deleteProject(Long projectId, Long ownerId) {
+    public void deleteProject(Long projectId, AppAuthentication authentication) {
         var projectEntity = projectRepository.findById(projectId)
                 .orElseThrow(EntityNotExistException::new);
 
-        if (!projectEntity.getProjectOwner().getId().equals(ownerId)) {
+        if (!projectEntity.getProjectOwner().getId().equals(authentication.getPrincipal())) {
             throw new AuthorizationException("Only project owner can delete project");
         }
 
