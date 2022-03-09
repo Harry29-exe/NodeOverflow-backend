@@ -8,4 +8,4 @@ application backend and the other one containing frontend and readme file descri
 functionality of application.
 </br></br>
 Second repository can be found under this link:</br>
-https://github.com/Harry29-exe/NodeOverflow-backend
+https://github.com/Harry29-exe/NodeOverflow-frontend
