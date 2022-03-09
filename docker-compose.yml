@@ -1,8 +1,8 @@
-version: "3.5"
+version: "2.0"
 services:
   postgres:
     build:
-      context: ./postgres
+      context: postgres
     image: postgres_image
     container_name: postgres_contaier
     ports:
@@ -12,7 +12,7 @@ services:
     build:
       context: ./
     ports:
-      - "8880:8080"
+      - "8080:8080"
     depends_on:
       - postgres
 
